@@ -31,6 +31,12 @@ const templates = {
     comment:
       "Abusive communication observed.",
   },
+  harassment: {
+    report:
+      "Harassment: the player repeatedly targeted another person with unwanted hostile conduct intended to intimidate, humiliate or disrupt their participation.",
+    comment:
+      "Repeated targeted harassment observed.",
+  },
   improperNickname: {
     report:
       "Improper profile name: the player's current nickname appears to contain offensive, discriminatory or otherwise inappropriate content.",
