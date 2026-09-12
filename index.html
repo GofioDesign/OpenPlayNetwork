@@ -35,7 +35,7 @@
         <p class="eyebrow"><span></span> REPORT RESPONSIBLY</p>
         <h1 id="page-title">Select. Review. Copy.</h1>
         <p>
-          Ready-to-use wording for clear, neutral Steam reports. Choose a category and click either field to copy it.
+          Ready-to-use wording for clear, neutral Steam reports. Combine any categories and click either field to copy it.
         </p>
       </section>
 
@@ -44,31 +44,38 @@
           <div class="section-heading">
             <span class="step">01</span>
             <div>
-              <h2>Report category</h2>
-              <p>What did you observe?</p>
+              <h2>Report categories</h2>
+              <p>Select everything you observed.</p>
             </div>
           </div>
 
-          <div class="category-grid" role="radiogroup" aria-label="Report category">
-            <button class="category active" type="button" role="radio" aria-checked="true" data-category="wallhack">
+          <div class="category-grid" role="group" aria-label="Report categories">
+            <button class="category active" type="button" aria-pressed="true" data-category="wallhack">
               <span class="category-icon">WH</span><span>Wallhack</span>
             </button>
-            <button class="category" type="button" role="radio" aria-checked="false" data-category="aimhack">
+            <button class="category" type="button" aria-pressed="false" data-category="aimhack">
               <span class="category-icon">AI</span><span>Aimhack</span>
             </button>
-            <button class="category" type="button" role="radio" aria-checked="false" data-category="otherHacks">
+            <button class="category" type="button" aria-pressed="false" data-category="otherHacks">
               <span class="category-icon">++</span><span>Other hacks</span>
             </button>
-            <button class="category" type="button" role="radio" aria-checked="false" data-category="abusiveCommunication">
+            <button class="category" type="button" aria-pressed="false" data-category="farmingBot">
+              <span class="category-icon">BOT</span><span>Farming bot</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-category="abusiveCommunication">
               <span class="category-icon">!!</span><span>Abusive communication</span>
             </button>
-            <button class="category" type="button" role="radio" aria-checked="false" data-category="improperNickname">
+            <button class="category" type="button" aria-pressed="false" data-category="improperNickname">
               <span class="category-icon">ID</span><span>Improper nickname</span>
             </button>
-            <button class="category" type="button" role="radio" aria-checked="false" data-category="improperImage">
+            <button class="category" type="button" aria-pressed="false" data-category="improperImage">
               <span class="category-icon">IMG</span><span>Improper image</span>
             </button>
           </div>
+          <button class="clear-button" id="clearSelection" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
+            Clear selection
+          </button>
         </div>
 
         <div class="copy-panel">
@@ -91,7 +98,7 @@
                 <span>Copy</span>
               </button>
             </div>
-            <textarea id="reportText" readonly aria-label="Steam report text"></textarea>
+            <textarea id="reportText" readonly aria-label="Steam report text" placeholder="Select one or more categories…"></textarea>
           </article>
 
           <article class="copy-card" data-copy-target="commentText" tabindex="0" role="button" aria-label="Copy public comment">
@@ -105,7 +112,7 @@
                 <span>Copy</span>
               </button>
             </div>
-            <textarea id="commentText" readonly aria-label="Profile comment text"></textarea>
+            <textarea id="commentText" readonly aria-label="Profile comment text" placeholder="Select one or more categories…"></textarea>
           </article>
 
           <p class="guidance">
