@@ -73,6 +73,12 @@ const templates = {
     comment:
       "Possible farming-bot behaviour observed.",
   },
+  botServerTakeover: {
+    report:
+      "Suspected coordinated bot-server takeover: multiple automated-looking accounts appeared to occupy or control the server and used vote-kicks to remove human players.",
+    comment:
+      "Possible coordinated bot-server takeover and vote-kick abuse against human players observed.",
+  },
   macroAutomation: {
     report:
       "Suspected macro or automated input: the player repeated identical, precisely timed movements or actions that appeared inconsistent with normal manual input.",
@@ -105,26 +111,196 @@ const templates = {
   },
 };
 
+const categoryHelp = {
+  wallhack: {
+    name: "Wallhack / ESP",
+    definition: "Visual assistance that reveals players, outlines or position cues through walls, smoke or other obstructing geometry.",
+    detection: "Look for repeated tracking through solid cover, pre-aiming unseen positions and reactions without visual, sound or teammate information. A wallbang or smoke kill by itself is not proof.",
+  },
+  aimhack: {
+    name: "Aimbot / Aimlock",
+    definition: "Aim assistance that moves or locks the crosshair onto an opponent automatically.",
+    detection: "Look for repeated unnatural snaps, instant target switching and highly consistent locking onto the same body point. A high headshot percentage alone is not proof.",
+  },
+  softAim: {
+    name: "Soft aim / Low FOV",
+    definition: "Subtle aim assistance that only corrects the crosshair when a target is already close to it, making the movement look more human.",
+    detection: "Look for repeated small magnetic-looking corrections, unusually consistent micro-adjustments and the crosshair being pulled onto targets at the last moment across many encounters.",
+  },
+  triggerbot: {
+    name: "Triggerbot",
+    definition: "Automation that fires the weapon when an opponent enters the crosshair, without needing the player to press fire at that moment.",
+    detection: "Look for repeated shots at almost identical zero-delay timing when enemies cross a held angle. One fast reaction is not enough; the pattern should repeat.",
+  },
+  radarHack: {
+    name: "Radar hack",
+    definition: "Assistance that exposes enemy locations on a radar or separate overlay even when the game should not reveal them.",
+    detection: "Look for repeated rotations, counters and positioning around unseen opponents without sound, teammate calls or legitimate radar information, especially across several rounds.",
+  },
+  noRecoil: {
+    name: "No recoil / Spray script",
+    definition: "A script or assistance that removes recoil or automates the mouse movement needed to control a weapon spray.",
+    detection: "Look for repeated sprays with absent or nearly identical recoil correction over many bursts. Skilled recoil control or one clean spray is not proof by itself.",
+  },
+  bhopScript: {
+    name: "Bunny-hop script",
+    definition: "Automation that times jumps or strafing inputs to maintain bunny-hop movement with minimal manual error.",
+    detection: "Look for long, repeated sequences of near-perfect jump timing and speed retention. A short successful sequence can happen legitimately.",
+  },
+  antiAim: {
+    name: "Anti-aim / Spinbot",
+    definition: "Manipulation of the player model or viewing angles intended to make the real orientation or hit position difficult to read.",
+    detection: "Look for repeated impossible-looking angles, rapid spinning, severe model desynchronisation or orientation that does not match the player's movement and shots.",
+  },
+  movementExploit: {
+    name: "Movement / Lag exploit",
+    definition: "Assistance or exploitation that creates controlled teleport-like, desynchronised or otherwise abnormal movement.",
+    detection: "Look for the abnormal movement recurring in the player's favour while other players and the server remain stable. General network lag affecting everyone is not the same thing.",
+  },
+  toggling: {
+    name: "Toggle use",
+    definition: "Switching cheating assistance on and off during a match, often to make suspicious moments appear intermittent.",
+    detection: "Look for repeated abrupt changes in awareness, accuracy or automation followed by equally abrupt returns to normal play. Ordinary performance variation is not enough.",
+  },
+  otherHacks: {
+    name: "Other hacks",
+    definition: "Suspicious gameplay assistance that does not fit one of the more specific categories.",
+    detection: "Describe the exact repeated behaviour, when it occurred and why normal game information or mechanics do not explain it. Prefer a specific category whenever possible.",
+  },
+  farmingBot: {
+    name: "Farming bot",
+    definition: "An automated account that remains in matches to obtain XP, drops or other rewards without normal human participation.",
+    detection: "Look for fixed routes, repetitive actions, identical reaction timing, failure to respond normally and accounts that freeze or leave when spectated. Check for a pattern, not just one AFK player.",
+  },
+  botServerTakeover: {
+    name: "Server takeover / Kick abuse",
+    definition: "A coordinated group of automated accounts that fills or controls a server and removes human players through vote-kicks.",
+    detection: "Look for many accounts behaving similarly, coordinated or immediate votes, repeated removal of human players and the server returning to automated activity afterwards.",
+  },
+  macroAutomation: {
+    name: "Macro / Automated input",
+    definition: "Software or hardware automation that repeats movement, firing or other inputs with preset timing.",
+    detection: "Look for identical input sequences, timing and pauses repeated many times, particularly when the pattern continues without adapting to what happens in the match.",
+  },
+  abusiveCommunication: {
+    name: "Abusive communication",
+    definition: "Hostile, threatening, discriminatory or otherwise abusive language sent through voice or text chat.",
+    detection: "Record the words or conduct accurately, along with the approximate round or time and whether it occurred in voice or text. Avoid paraphrasing more strongly than the evidence supports.",
+  },
+  harassment: {
+    name: "Harassment",
+    definition: "Repeated or targeted unwanted conduct intended to intimidate, humiliate or drive another person out of participation.",
+    detection: "Look for repeated targeting of the same person, threats, following across interactions or coordinated abuse. Preserve context and distinguish it from a single disagreement.",
+  },
+  improperNickname: {
+    name: "Improper nickname",
+    definition: "A profile or display name containing offensive, discriminatory, impersonating or otherwise prohibited content.",
+    detection: "Check the current visible name and profile context. Save the profile URL or a screenshot because names can be changed after a report.",
+  },
+  improperImage: {
+    name: "Improper image",
+    definition: "An avatar or profile image containing hateful, explicit, threatening or otherwise prohibited material.",
+    detection: "Check the image in its actual profile context and preserve a screenshot or profile URL because avatars can be replaced after a report.",
+  },
+};
+
 const reportText = document.querySelector("#reportText");
 const commentText = document.querySelector("#commentText");
 const categoryButtons = document.querySelectorAll(".category");
+
+categoryButtons.forEach((button) => {
+  const help = categoryHelp[button.dataset.category];
+  const item = document.createElement("div");
+  item.className = "category-item";
+  item.dataset.area = button.dataset.area;
+  button.parentNode.insertBefore(item, button);
+  item.appendChild(button);
+
+  const infoButton = document.createElement("button");
+  infoButton.type = "button";
+  infoButton.className = "category-info-button";
+  infoButton.textContent = "i";
+  infoButton.setAttribute("aria-label", `About ${help.name}`);
+  infoButton.dataset.infoCategory = button.dataset.category;
+  item.appendChild(infoButton);
+});
+
+const categoryItems = document.querySelectorAll(".category-item");
 const filterButtons = document.querySelectorAll(".filter-chip");
 const copyCards = document.querySelectorAll(".copy-card");
 const clearButton = document.querySelector("#clearSelection");
 const selectedCount = document.querySelector("#selectedCount");
 const botRoute = document.querySelector("#botRoute");
+const botProfileUrl = document.querySelector("#botProfileUrl");
+const sendBotEmail = document.querySelector("#sendBotEmail");
+const botUrlStatus = document.querySelector("#botUrlStatus");
+const categoryInfoDialog = document.querySelector("#categoryInfoDialog");
+const categoryInfoTitle = document.querySelector("#categoryInfoTitle");
+const categoryInfoDefinition = document.querySelector("#categoryInfoDefinition");
+const categoryInfoDetection = document.querySelector("#categoryInfoDetection");
+const closeCategoryInfo = document.querySelector("#closeCategoryInfo");
 const toast = document.querySelector(".toast");
-const selectedCategories = new Set(["wallhack"]);
+const selectedCategories = new Set();
 let activeFilter = "all";
 let toastTimer;
+
+function isSteamProfileUrl(value) {
+  try {
+    const url = new URL(value);
+    const validHost = url.hostname === "steamcommunity.com" || url.hostname === "www.steamcommunity.com";
+    const validPath = /^\/(id|profiles)\/[^/]+\/?$/.test(url.pathname);
+    return url.protocol === "https:" && validHost && validPath;
+  } catch {
+    return false;
+  }
+}
+
+function updateBotEmailLink() {
+  const profileUrl = botProfileUrl.value.trim();
+  const hasValue = profileUrl.length > 0;
+  const isValid = isSteamProfileUrl(profileUrl);
+
+  botProfileUrl.classList.toggle("invalid", hasValue && !isValid);
+  botUrlStatus.classList.toggle("valid", isValid);
+  botUrlStatus.classList.toggle("invalid", hasValue && !isValid);
+
+  if (!isValid) {
+    sendBotEmail.removeAttribute("href");
+    sendBotEmail.classList.add("disabled");
+    sendBotEmail.setAttribute("aria-disabled", "true");
+    botUrlStatus.textContent = hasValue
+      ? "Enter a valid Steam Community profile URL."
+      : "Paste the Steam profile URL to prepare the email.";
+    return;
+  }
+
+  const subject = "Farming Bot Report";
+  const body = [
+    "Hello Counter-Strike Team,",
+    "",
+    "I would like to report a suspected farming bot account:",
+    profileUrl,
+    "",
+    "Observed behaviour:",
+    reportText.value,
+    "",
+    "Thank you.",
+  ].join("\n");
+
+  sendBotEmail.href = `mailto:csgoteamfeedback@valvesoftware.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  sendBotEmail.classList.remove("disabled");
+  sendBotEmail.setAttribute("aria-disabled", "false");
+  botUrlStatus.textContent = "Email ready. Your mail app will open before anything is sent.";
+}
 
 function applyFilter(filter) {
   activeFilter = filter;
 
-  categoryButtons.forEach((button) => {
-    const matchesArea = filter === "all" || button.dataset.area === filter;
+  categoryItems.forEach((item) => {
+    const button = item.querySelector(".category");
+    const matchesArea = filter === "all" || item.dataset.area === filter;
     const matchesSelection = filter === "selected" && selectedCategories.has(button.dataset.category);
-    button.hidden = filter === "selected" ? !matchesSelection : !matchesArea;
+    item.hidden = filter === "selected" ? !matchesSelection : !matchesArea;
   });
 
   filterButtons.forEach((button) => {
@@ -133,7 +309,15 @@ function applyFilter(filter) {
     button.setAttribute("aria-pressed", String(isActive));
   });
 
-  botRoute.hidden = !(filter === "automation" || selectedCategories.has("farmingBot"));
+  botRoute.hidden = !selectedCategories.has("farmingBot");
+}
+
+function openCategoryInfo(category) {
+  const help = categoryHelp[category];
+  categoryInfoTitle.textContent = help.name;
+  categoryInfoDefinition.textContent = help.definition;
+  categoryInfoDetection.textContent = help.detection;
+  categoryInfoDialog.showModal();
 }
 
 function updateOutput() {
@@ -160,8 +344,10 @@ function updateOutput() {
   if (activeFilter === "selected") {
     applyFilter("selected");
   } else {
-    botRoute.hidden = !(activeFilter === "automation" || selectedCategories.has("farmingBot"));
+    botRoute.hidden = !selectedCategories.has("farmingBot");
   }
+
+  updateBotEmailLink();
 }
 
 function toggleCategory(category) {
@@ -182,6 +368,7 @@ function toggleCategory(category) {
 
 function clearSelection() {
   selectedCategories.clear();
+  botProfileUrl.value = "";
   categoryButtons.forEach((button) => {
     button.classList.remove("active");
     button.setAttribute("aria-pressed", "false");
@@ -244,8 +431,29 @@ categoryButtons.forEach((button) => {
   button.addEventListener("click", () => toggleCategory(button.dataset.category));
 });
 
+document.querySelectorAll(".category-info-button").forEach((button) => {
+  button.addEventListener("click", () => openCategoryInfo(button.dataset.infoCategory));
+});
+
+closeCategoryInfo.addEventListener("click", () => categoryInfoDialog.close());
+
+categoryInfoDialog.addEventListener("click", (event) => {
+  if (event.target === categoryInfoDialog) {
+    categoryInfoDialog.close();
+  }
+});
+
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => applyFilter(button.dataset.filter));
+});
+
+botProfileUrl.addEventListener("input", updateBotEmailLink);
+
+sendBotEmail.addEventListener("click", (event) => {
+  if (sendBotEmail.getAttribute("aria-disabled") === "true") {
+    event.preventDefault();
+    botProfileUrl.focus();
+  }
 });
 
 clearButton.addEventListener("click", clearSelection);

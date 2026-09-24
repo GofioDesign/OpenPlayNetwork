@@ -58,13 +58,13 @@
               <button class="filter-chip" type="button" data-filter="conduct" aria-pressed="false">Communication &amp; conduct</button>
               <button class="filter-chip" type="button" data-filter="profile" aria-pressed="false">Profile content</button>
               <button class="filter-chip selected-filter" type="button" data-filter="selected" aria-pressed="false">
-                Selected <span id="selectedCount">1</span>
+                Selected <span id="selectedCount">0</span>
               </button>
             </div>
           </div>
 
           <div class="category-grid" role="group" aria-label="Report categories">
-            <button class="category active" type="button" aria-pressed="true" data-category="wallhack" data-area="cheating">
+            <button class="category" type="button" aria-pressed="false" data-category="wallhack" data-area="cheating">
               <span class="category-icon">WH</span><span>Wallhack / ESP</span>
             </button>
             <button class="category" type="button" aria-pressed="false" data-category="aimhack" data-area="cheating">
@@ -100,6 +100,9 @@
             <button class="category" type="button" aria-pressed="false" data-category="farmingBot" data-area="automation">
               <span class="category-icon">BOT</span><span>Farming bot</span>
             </button>
+            <button class="category" type="button" aria-pressed="false" data-category="botServerTakeover" data-area="automation">
+              <span class="category-icon">KCK</span><span>Server takeover / Kick abuse</span>
+            </button>
             <button class="category" type="button" aria-pressed="false" data-category="macroAutomation" data-area="automation">
               <span class="category-icon">MAC</span><span>Macro / Automated input</span>
             </button>
@@ -121,6 +124,23 @@
             <strong>Report profiles directly to Valve</strong>
             <a href="mailto:csgoteamfeedback@valvesoftware.com?subject=Farming%20Bot%20Report">csgoteamfeedback@valvesoftware.com</a>
             <span>Subject: <code>Farming Bot Report</code></span>
+            <label for="botProfileUrl">Steam profile URL</label>
+            <input
+              id="botProfileUrl"
+              type="url"
+              inputmode="url"
+              autocomplete="off"
+              spellcheck="false"
+              placeholder="https://steamcommunity.com/profiles/…"
+            />
+            <a class="bot-email-button disabled" id="sendBotEmail" aria-disabled="true">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16v12H4zM4 7l8 6 8-6" /></svg>
+              Send email report
+            </a>
+            <span class="bot-url-status" id="botUrlStatus" role="status" aria-live="polite">
+              Paste the Steam profile URL to prepare the email.
+            </span>
+            <small>The URL stays in your browser and is not stored by this page.</small>
           </aside>
           <button class="clear-button" id="clearSelection" type="button">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
@@ -172,6 +192,27 @@
         </div>
       </section>
     </main>
+
+    <dialog class="info-dialog" id="categoryInfoDialog" aria-labelledby="categoryInfoTitle">
+      <div class="info-dialog-content">
+        <button class="info-dialog-close" id="closeCategoryInfo" type="button" aria-label="Close information">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        </button>
+        <span class="info-dialog-kicker">REPORT CATEGORY</span>
+        <h2 id="categoryInfoTitle"></h2>
+        <div class="info-dialog-section">
+          <h3>What it is</h3>
+          <p id="categoryInfoDefinition"></p>
+        </div>
+        <div class="info-dialog-section">
+          <h3>What to look for</h3>
+          <p id="categoryInfoDetection"></p>
+        </div>
+        <p class="info-dialog-caution">
+          Look for repeated patterns and context. One unusual moment alone does not prove cheating or misconduct.
+        </p>
+      </div>
+    </dialog>
 
     <footer>
       <span>OPN · Open Play Network</span>

@@ -168,6 +168,8 @@ h1 {
 }
 
 .category-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.category-item { position: relative; min-width: 0; }
+.category-item[hidden] { display: none; }
 
 .filter-block { margin-bottom: 18px; }
 
@@ -218,8 +220,10 @@ h1 {
 .category[hidden] { display: none; }
 
 .category {
+  width: 100%;
+  height: 100%;
   min-height: 98px;
-  padding: 16px;
+  padding: 16px 42px 16px 16px;
   border: 1px solid var(--line);
   border-radius: 14px;
   background: rgba(5, 11, 22, 0.52);
@@ -254,6 +258,35 @@ h1 {
 }
 
 .category.active .category-icon { color: var(--cyan); }
+
+.category-info-button {
+  position: absolute;
+  top: 11px;
+  right: 11px;
+  z-index: 2;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgba(143, 164, 191, 0.32);
+  border-radius: 50%;
+  background: rgba(3, 8, 17, 0.76);
+  color: #8fa4bf;
+  cursor: help;
+  font-family: Georgia, serif;
+  font-size: 0.73rem;
+  font-weight: 700;
+  transition: 160ms ease;
+}
+
+.category-info-button:hover,
+.category-info-button:focus-visible {
+  outline: none;
+  border-color: var(--cyan);
+  color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(36, 198, 255, 0.08);
+}
 
 .clear-button {
   display: flex;
@@ -300,6 +333,86 @@ h1 {
 .bot-route strong { color: var(--text); font-size: 0.8rem; }
 .bot-route a { color: #b8eaff; overflow-wrap: anywhere; }
 .bot-route code { color: #d7ceff; font-size: 0.7rem; }
+.bot-route label { margin-top: 7px; color: #c4d2e3; font-size: 0.68rem; font-weight: 750; }
+.bot-route small { color: #647b96; font-size: 0.63rem; }
+
+.bot-route input {
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  outline: none;
+  background: rgba(3, 8, 17, 0.68);
+  color: var(--text);
+  font-size: 0.72rem;
+}
+
+.bot-route input:focus { border-color: var(--line-strong); box-shadow: 0 0 0 3px rgba(36, 198, 255, 0.08); }
+.bot-route input.invalid { border-color: rgba(255, 102, 125, 0.62); }
+.bot-route input::placeholder { color: #58708b; }
+
+.bot-route .bot-email-button {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3px;
+  padding: 10px 12px;
+  border: 1px solid rgba(36, 198, 255, 0.42);
+  border-radius: 9px;
+  background: rgba(36, 198, 255, 0.1);
+  color: #c9f2ff;
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: 160ms ease;
+}
+
+.bot-route .bot-email-button:hover:not(.disabled) { border-color: var(--cyan); background: rgba(36, 198, 255, 0.17); }
+.bot-route .bot-email-button.disabled { opacity: 0.38; cursor: not-allowed; }
+.bot-email-button svg { width: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.bot-url-status { min-height: 1.05rem; color: #7890aa; font-size: 0.64rem; }
+.bot-url-status.valid { color: var(--success); }
+.bot-url-status.invalid { color: #ff8ea0; }
+
+.info-dialog {
+  width: min(540px, calc(100% - 28px));
+  padding: 0;
+  border: 1px solid rgba(36, 198, 255, 0.32);
+  border-radius: 20px;
+  background: #091321;
+  color: var(--text);
+  box-shadow: 0 30px 100px rgba(0, 0, 0, 0.72);
+}
+
+.info-dialog::backdrop { background: rgba(0, 4, 11, 0.78); backdrop-filter: blur(5px); }
+.info-dialog-content { position: relative; padding: clamp(26px, 5vw, 40px); }
+
+.info-dialog-close {
+  position: absolute;
+  top: 17px;
+  right: 17px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: rgba(255,255,255,0.025);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.info-dialog-close:hover { border-color: var(--line-strong); color: var(--cyan); }
+.info-dialog-close svg { width: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; }
+.info-dialog-kicker { color: var(--cyan); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.18em; }
+.info-dialog h2 { margin: 9px 44px 26px 0; font-size: clamp(1.45rem, 5vw, 2rem); letter-spacing: -0.035em; }
+.info-dialog-section + .info-dialog-section { margin-top: 20px; }
+.info-dialog-section h3 { margin: 0 0 7px; color: #c6d8ec; font-size: 0.76rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.info-dialog-section p { margin: 0; color: #9cb0c8; font-size: 0.86rem; line-height: 1.65; }
+.info-dialog-caution { margin: 25px 0 0; padding: 13px 15px; border-left: 2px solid #9b8cff; background: rgba(155, 140, 255, 0.07); color: #9eaec2; font-size: 0.72rem; line-height: 1.55; }
 
 .copy-card {
   padding: 22px;
