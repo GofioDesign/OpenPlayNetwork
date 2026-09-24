@@ -17,14 +17,14 @@
     <div class="ambient ambient-two" aria-hidden="true"></div>
 
     <header class="site-header">
-      <a class="brand" href="https://steamcommunity.com/groups/__OPN" target="_blank" rel="noreferrer">
+      <a class="brand" href="https://steamcommunity.com/groups/OpenPlayNetwork" target="_blank" rel="noreferrer">
         <img src="assets/opn-logo.png" alt="Open Play Network logo" />
         <span>
           <strong>OPEN PLAY NETWORK</strong>
           <small>Community report kit</small>
         </span>
       </a>
-      <a class="group-link" href="https://steamcommunity.com/groups/__OPN" target="_blank" rel="noreferrer">
+      <a class="group-link" href="https://steamcommunity.com/groups/OpenPlayNetwork" target="_blank" rel="noreferrer">
         Steam group
         <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg>
       </a>
@@ -49,32 +49,79 @@
             </div>
           </div>
 
+          <div class="filter-block">
+            <span class="filter-label">Steam report area</span>
+            <div class="filter-bar" role="group" aria-label="Filter report categories">
+              <button class="filter-chip active" type="button" data-filter="all" aria-pressed="true">All</button>
+              <button class="filter-chip" type="button" data-filter="cheating" aria-pressed="false">Cheating</button>
+              <button class="filter-chip" type="button" data-filter="automation" aria-pressed="false">Bots &amp; automation</button>
+              <button class="filter-chip" type="button" data-filter="conduct" aria-pressed="false">Communication &amp; conduct</button>
+              <button class="filter-chip" type="button" data-filter="profile" aria-pressed="false">Profile content</button>
+              <button class="filter-chip selected-filter" type="button" data-filter="selected" aria-pressed="false">
+                Selected <span id="selectedCount">1</span>
+              </button>
+            </div>
+          </div>
+
           <div class="category-grid" role="group" aria-label="Report categories">
-            <button class="category active" type="button" aria-pressed="true" data-category="wallhack">
-              <span class="category-icon">WH</span><span>Wallhack</span>
+            <button class="category active" type="button" aria-pressed="true" data-category="wallhack" data-area="cheating">
+              <span class="category-icon">WH</span><span>Wallhack / ESP</span>
             </button>
-            <button class="category" type="button" aria-pressed="false" data-category="aimhack">
-              <span class="category-icon">AI</span><span>Aimhack</span>
+            <button class="category" type="button" aria-pressed="false" data-category="aimhack" data-area="cheating">
+              <span class="category-icon">AI</span><span>Aimbot / Aimlock</span>
             </button>
-            <button class="category" type="button" aria-pressed="false" data-category="otherHacks">
+            <button class="category" type="button" aria-pressed="false" data-category="softAim" data-area="cheating">
+              <span class="category-icon">SA</span><span>Soft aim / Low FOV</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-category="triggerbot" data-area="cheating">
+              <span class="category-icon">TRG</span><span>Triggerbot</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-category="radarHack" data-area="cheating">
+              <span class="category-icon">RAD</span><span>Radar hack</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-category="noRecoil" data-area="cheating">
+              <span class="category-icon">NR</span><span>No recoil / Spray script</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-category="bhopScript" data-area="cheating">
+              <span class="category-icon">BH</span><span>Bunny-hop script</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-category="antiAim" data-area="cheating">
+              <span class="category-icon">AA</span><span>Anti-aim / Spinbot</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-category="movementExploit" data-area="cheating">
+              <span class="category-icon">MOV</span><span>Movement / Lag exploit</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-category="toggling" data-area="cheating">
+              <span class="category-icon">ON</span><span>Toggle use</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-category="otherHacks" data-area="cheating">
               <span class="category-icon">++</span><span>Other hacks</span>
             </button>
-            <button class="category" type="button" aria-pressed="false" data-category="farmingBot">
+            <button class="category" type="button" aria-pressed="false" data-category="farmingBot" data-area="automation">
               <span class="category-icon">BOT</span><span>Farming bot</span>
             </button>
-            <button class="category" type="button" aria-pressed="false" data-category="abusiveCommunication">
+            <button class="category" type="button" aria-pressed="false" data-category="macroAutomation" data-area="automation">
+              <span class="category-icon">MAC</span><span>Macro / Automated input</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-category="abusiveCommunication" data-area="conduct">
               <span class="category-icon">!!</span><span>Abusive communication</span>
             </button>
-            <button class="category" type="button" aria-pressed="false" data-category="harassment">
+            <button class="category" type="button" aria-pressed="false" data-category="harassment" data-area="conduct">
               <span class="category-icon">HS</span><span>Harassment</span>
             </button>
-            <button class="category" type="button" aria-pressed="false" data-category="improperNickname">
+            <button class="category" type="button" aria-pressed="false" data-category="improperNickname" data-area="profile">
               <span class="category-icon">ID</span><span>Improper nickname</span>
             </button>
-            <button class="category" type="button" aria-pressed="false" data-category="improperImage">
+            <button class="category" type="button" aria-pressed="false" data-category="improperImage" data-area="profile">
               <span class="category-icon">IMG</span><span>Improper image</span>
             </button>
           </div>
+          <aside class="bot-route" id="botRoute" hidden>
+            <span class="bot-route-kicker">FARMING BOT ROUTE</span>
+            <strong>Report profiles directly to Valve</strong>
+            <a href="mailto:csgoteamfeedback@valvesoftware.com?subject=Farming%20Bot%20Report">csgoteamfeedback@valvesoftware.com</a>
+            <span>Subject: <code>Farming Bot Report</code></span>
+          </aside>
           <button class="clear-button" id="clearSelection" type="button">
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
             Clear selection

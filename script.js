@@ -1,4 +1,4 @@
-const groupUrl = "https://steamcommunity.com/groups/__OPN";
+const groupUrl = "https://steamcommunity.com/groups/OpenPlayNetwork";
 
 const templates = {
   wallhack: {
@@ -13,6 +13,54 @@ const templates = {
     comment:
       "Possible aim assistance observed.",
   },
+  softAim: {
+    report:
+      "Suspected low-FOV or soft aim assistance: the crosshair made repeated subtle corrections toward targets, producing unusually consistent precision without obvious full snaps.",
+    comment:
+      "Possible soft aim or low-FOV aim assistance observed.",
+  },
+  triggerbot: {
+    report:
+      "Suspected triggerbot: shots repeatedly fired at the exact moment an opponent crossed the player's crosshair, with reaction timing that appeared automated.",
+    comment:
+      "Possible automated trigger behaviour observed.",
+  },
+  radarHack: {
+    report:
+      "Suspected radar assistance: the player repeatedly reacted to unseen opponents and repositioned around their locations without clear visual or audible information.",
+    comment:
+      "Possible radar assistance observed.",
+  },
+  noRecoil: {
+    report:
+      "Suspected recoil or spray-control script: repeated weapon sprays showed absent or unnaturally consistent recoil correction.",
+    comment:
+      "Possible recoil or spray-control automation observed.",
+  },
+  bhopScript: {
+    report:
+      "Suspected bunny-hop script: the player sustained repeated, precisely timed jumps and movement that appeared automated.",
+    comment:
+      "Possible bunny-hop automation observed.",
+  },
+  antiAim: {
+    report:
+      "Suspected anti-aim or spinbot: the player's model, orientation or movement displayed repeated unnatural spinning or false-angle behaviour.",
+    comment:
+      "Possible anti-aim or spinbot behaviour observed.",
+  },
+  movementExploit: {
+    report:
+      "Suspected movement or lag exploit: the player repeatedly displayed teleport-like, desynchronised or otherwise unnatural movement inconsistent with normal gameplay.",
+    comment:
+      "Possible movement or lag exploitation observed.",
+  },
+  toggling: {
+    report:
+      "Possible toggle use: the suspicious behaviour appeared and disappeared abruptly at different points in the match, consistent with assistance being switched on and off.",
+    comment:
+      "Possible intermittent or toggled assistance observed.",
+  },
   otherHacks: {
     report:
       "Suspected use of other gameplay assistance or automation: the player displayed repeated behaviour that appeared inconsistent with normal input or game mechanics.",
@@ -24,6 +72,12 @@ const templates = {
       "Suspected farming bot: the player displayed repetitive, automated-looking movement or actions and did not participate normally in the match.",
     comment:
       "Possible farming-bot behaviour observed.",
+  },
+  macroAutomation: {
+    report:
+      "Suspected macro or automated input: the player repeated identical, precisely timed movements or actions that appeared inconsistent with normal manual input.",
+    comment:
+      "Possible macro or automated input observed.",
   },
   abusiveCommunication: {
     report:
@@ -54,11 +108,33 @@ const templates = {
 const reportText = document.querySelector("#reportText");
 const commentText = document.querySelector("#commentText");
 const categoryButtons = document.querySelectorAll(".category");
+const filterButtons = document.querySelectorAll(".filter-chip");
 const copyCards = document.querySelectorAll(".copy-card");
 const clearButton = document.querySelector("#clearSelection");
+const selectedCount = document.querySelector("#selectedCount");
+const botRoute = document.querySelector("#botRoute");
 const toast = document.querySelector(".toast");
 const selectedCategories = new Set(["wallhack"]);
+let activeFilter = "all";
 let toastTimer;
+
+function applyFilter(filter) {
+  activeFilter = filter;
+
+  categoryButtons.forEach((button) => {
+    const matchesArea = filter === "all" || button.dataset.area === filter;
+    const matchesSelection = filter === "selected" && selectedCategories.has(button.dataset.category);
+    button.hidden = filter === "selected" ? !matchesSelection : !matchesArea;
+  });
+
+  filterButtons.forEach((button) => {
+    const isActive = button.dataset.filter === filter;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+
+  botRoute.hidden = !(filter === "automation" || selectedCategories.has("farmingBot"));
+}
 
 function updateOutput() {
   const selected = Array.from(categoryButtons)
@@ -78,7 +154,14 @@ function updateOutput() {
   reportText.classList.toggle("empty", !hasSelection);
   commentText.classList.toggle("empty", !hasSelection);
   clearButton.disabled = !hasSelection;
+  selectedCount.textContent = String(selected.length);
   copyCards.forEach((card) => card.setAttribute("aria-disabled", String(!hasSelection)));
+
+  if (activeFilter === "selected") {
+    applyFilter("selected");
+  } else {
+    botRoute.hidden = !(activeFilter === "automation" || selectedCategories.has("farmingBot"));
+  }
 }
 
 function toggleCategory(category) {
@@ -161,6 +244,10 @@ categoryButtons.forEach((button) => {
   button.addEventListener("click", () => toggleCategory(button.dataset.category));
 });
 
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => applyFilter(button.dataset.filter));
+});
+
 clearButton.addEventListener("click", clearSelection);
 
 copyCards.forEach((card) => {
@@ -180,4 +267,5 @@ document.querySelectorAll(".copy-button").forEach((button) => {
   });
 });
 
+applyFilter("all");
 updateOutput();

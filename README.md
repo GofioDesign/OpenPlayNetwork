@@ -1,6 +1,8 @@
 # OPN Report Kit
 
-A lightweight, dependency-free web tool for combining and copying neutral Steam report and profile-comment templates.
+A lightweight, dependency-free web tool for filtering, combining and copying neutral Steam report and profile-comment templates.
+
+Steam group: https://steamcommunity.com/groups/OpenPlayNetwork
 
 ## Use locally
 
