@@ -9,7 +9,7 @@
     />
     <meta name="theme-color" content="#030711" />
     <link rel="icon" href="assets/opn-logo.png" type="image/png" />
-    <link rel="stylesheet" href="styles.css?v=20260924.1" />
+    <link rel="stylesheet" href="styles.css?v=20260924.2" />
     <title>OPN Report Kit</title>
   </head>
   <body>
@@ -164,27 +164,56 @@
 
           <aside class="bot-route" id="botRoute" hidden>
             <span class="bot-route-kicker">FARMING BOT ROUTE</span>
-            <strong>Report profiles directly to Valve</strong>
-            <a href="mailto:csgoteamfeedback@valvesoftware.com?subject=Farming%20Bot%20Report">csgoteamfeedback@valvesoftware.com</a>
-            <span>Subject: <code>Farming Bot Report</code></span>
+            <strong>Copy the email details for Valve</strong>
+
+            <label for="botEmailRecipient">Recipient</label>
+            <div class="bot-field-row">
+              <input id="botEmailRecipient" type="text" value="csgoteamfeedback@valvesoftware.com" readonly />
+              <button class="bot-inline-copy" type="button" data-bot-copy="botEmailRecipient">Copy</button>
+            </div>
+
+            <label for="botEmailSubject">Subject</label>
+            <div class="bot-field-row">
+              <input id="botEmailSubject" type="text" value="Farming Bot Report" readonly />
+              <button class="bot-inline-copy" type="button" data-bot-copy="botEmailSubject">Copy</button>
+            </div>
+
             <label for="botProfileUrl">Steam profile URL</label>
-            <input
-              id="botProfileUrl"
-              type="url"
-              inputmode="url"
-              autocomplete="off"
-              spellcheck="false"
-              placeholder="https://steamcommunity.com/profiles/…"
-            />
-            <a class="bot-email-button disabled" id="sendBotEmail" aria-disabled="true">
-              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 6h16v12H4zM4 7l8 6 8-6" /></svg>
-              Send email report
-            </a>
+            <div class="bot-field-row bot-profile-row">
+              <input
+                id="botProfileUrl"
+                type="url"
+                inputmode="url"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="https://steamcommunity.com/profiles/…"
+              />
+              <button class="bot-inline-copy bot-add-button" id="addBotToDailyList" type="button" disabled>Add to today</button>
+            </div>
+
             <span class="bot-url-status" id="botUrlStatus" role="status" aria-live="polite">
-              Paste the Steam profile URL to prepare the email.
+              Paste a Steam profile URL to add it to today's list.
             </span>
-            <small>The email includes this profile URL and the complete Private report shown above.</small>
-            <small>The URL stays in your browser and is not stored by this page.</small>
+
+            <div class="bot-daily-header">
+              <div>
+                <span>Today's list</span>
+                <strong id="botDailyCount">0 profiles</strong>
+              </div>
+              <button id="clearBotDailyList" type="button" disabled>Clear sent list</button>
+            </div>
+            <div class="bot-daily-list" id="botDailyList"></div>
+            <p class="bot-daily-empty" id="botDailyEmpty">No profiles saved today.</p>
+
+            <label for="botEmailBody">Daily email body</label>
+            <textarea class="bot-email-body" id="botEmailBody" readonly placeholder="Add profiles to today's list to prepare one consolidated email."></textarea>
+            <button class="bot-email-button" id="copyBotEmail" type="button" data-bot-copy="botEmailBody" disabled>
+              <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg>
+              Copy email body
+            </button>
+            <small>At the end of the day, copy the recipient, subject and body and paste them into your email outside the Steam browser.</small>
+            <small>Each entry includes the categories selected when it was added. Duplicate URLs are merged.</small>
+            <small>Today's list is stored only in this browser on this device. Clear it after sending.</small>
           </aside>
 
           <p class="guidance">
@@ -226,6 +255,6 @@
       <span>Copied to clipboard</span>
     </div>
 
-    <script src="script.js?v=20260924.1"></script>
+    <script src="script.js?v=20260924.2"></script>
   </body>
 </html>

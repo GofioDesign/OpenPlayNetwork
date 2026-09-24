@@ -331,10 +331,10 @@ h1 {
 .bot-route[hidden] { display: none; }
 .bot-route-kicker { color: #9b8cff; font-size: 0.59rem; font-weight: 800; letter-spacing: 0.16em; }
 .bot-route strong { color: var(--text); font-size: 0.8rem; }
-.bot-route a { color: #b8eaff; overflow-wrap: anywhere; }
-.bot-route code { color: #d7ceff; font-size: 0.7rem; }
 .bot-route label { margin-top: 7px; color: #c4d2e3; font-size: 0.68rem; font-weight: 750; }
 .bot-route small { color: #647b96; font-size: 0.63rem; }
+
+.bot-field-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 7px; }
 
 .bot-route input {
   width: 100%;
@@ -350,6 +350,84 @@ h1 {
 .bot-route input:focus { border-color: var(--line-strong); box-shadow: 0 0 0 3px rgba(36, 198, 255, 0.08); }
 .bot-route input.invalid { border-color: rgba(255, 102, 125, 0.62); }
 .bot-route input::placeholder { color: #58708b; }
+.bot-route input[readonly] { color: #aebfd2; }
+
+.bot-inline-copy {
+  padding: 0 11px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(255,255,255,0.025);
+  color: #a9bdd3;
+  cursor: pointer;
+  font-size: 0.66rem;
+  font-weight: 800;
+}
+
+.bot-inline-copy:hover { border-color: var(--line-strong); color: var(--cyan); }
+.bot-inline-copy:disabled { opacity: 0.38; cursor: not-allowed; }
+.bot-profile-row { grid-template-columns: minmax(0, 1fr) auto; }
+.bot-add-button { color: #c9f2ff; border-color: rgba(36, 198, 255, 0.36); background: rgba(36, 198, 255, 0.08); }
+
+.bot-daily-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 9px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.bot-daily-header div { display: flex; align-items: baseline; gap: 8px; }
+.bot-daily-header span { color: #c4d2e3; font-size: 0.7rem; font-weight: 800; }
+.bot-daily-header strong { color: var(--cyan); font-size: 0.64rem; }
+.bot-daily-header button,
+.bot-daily-remove {
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: transparent;
+  color: #8fa4bb;
+  cursor: pointer;
+  font-size: 0.6rem;
+  font-weight: 750;
+}
+.bot-daily-header button:hover:not(:disabled),
+.bot-daily-remove:hover { border-color: rgba(255, 102, 125, 0.45); color: #ff8ea0; }
+.bot-daily-header button:disabled { opacity: 0.35; cursor: not-allowed; }
+.bot-daily-list { display: grid; gap: 7px; }
+.bot-daily-entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 4px 10px;
+  padding: 9px 10px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: rgba(3, 8, 17, 0.45);
+}
+.bot-daily-url { overflow: hidden; color: #b7c9dc; font-size: 0.66rem; text-overflow: ellipsis; white-space: nowrap; }
+.bot-daily-categories { grid-column: 1; color: #6f87a1; font-size: 0.59rem; line-height: 1.4; }
+.bot-daily-remove { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+.bot-daily-empty { margin: 0; color: #647b96; font-size: 0.64rem; }
+.bot-daily-empty[hidden] { display: none; }
+
+.bot-email-body {
+  width: 100%;
+  height: 170px;
+  margin: 0;
+  padding: 11px;
+  resize: vertical;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  outline: none;
+  background: rgba(3, 8, 17, 0.68);
+  color: #c8d5e6;
+  cursor: text;
+  font-size: 0.72rem;
+  line-height: 1.55;
+}
+
+.bot-email-body:focus { border-color: var(--line-strong); box-shadow: 0 0 0 3px rgba(36, 198, 255, 0.08); }
 
 .bot-route .bot-email-button {
   display: flex;
@@ -369,8 +447,8 @@ h1 {
   transition: 160ms ease;
 }
 
-.bot-route .bot-email-button:hover:not(.disabled) { border-color: var(--cyan); background: rgba(36, 198, 255, 0.17); }
-.bot-route .bot-email-button.disabled { opacity: 0.38; cursor: not-allowed; }
+.bot-route .bot-email-button:hover:not(:disabled) { border-color: var(--cyan); background: rgba(36, 198, 255, 0.17); }
+.bot-route .bot-email-button:disabled { opacity: 0.38; cursor: not-allowed; }
 .bot-email-button svg { width: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 .bot-url-status { min-height: 1.05rem; color: #7890aa; font-size: 0.64rem; }
 .bot-url-status.valid { color: var(--success); }

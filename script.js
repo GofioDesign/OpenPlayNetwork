@@ -232,8 +232,14 @@ const clearButton = document.querySelector("#clearSelection");
 const selectedCount = document.querySelector("#selectedCount");
 const botRoute = document.querySelector("#botRoute");
 const botProfileUrl = document.querySelector("#botProfileUrl");
-const sendBotEmail = document.querySelector("#sendBotEmail");
+const botEmailBody = document.querySelector("#botEmailBody");
+const copyBotEmail = document.querySelector("#copyBotEmail");
 const botUrlStatus = document.querySelector("#botUrlStatus");
+const addBotToDailyList = document.querySelector("#addBotToDailyList");
+const botDailyList = document.querySelector("#botDailyList");
+const botDailyEmpty = document.querySelector("#botDailyEmpty");
+const botDailyCount = document.querySelector("#botDailyCount");
+const clearBotDailyList = document.querySelector("#clearBotDailyList");
 const categoryInfoDialog = document.querySelector("#categoryInfoDialog");
 const categoryInfoTitle = document.querySelector("#categoryInfoTitle");
 const categoryInfoDefinition = document.querySelector("#categoryInfoDefinition");
@@ -241,8 +247,20 @@ const categoryInfoDetection = document.querySelector("#categoryInfoDetection");
 const closeCategoryInfo = document.querySelector("#closeCategoryInfo");
 const toast = document.querySelector(".toast");
 const selectedCategories = new Set();
+const botQueueStoragePrefix = "opnBotReports:";
 let activeFilter = "all";
 let toastTimer;
+
+function localDateStamp(date = new Date()) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function botQueueStorageKey() {
+  return `${botQueueStoragePrefix}${localDateStamp()}`;
+}
 
 function isSteamProfileUrl(value) {
   try {
@@ -255,7 +273,126 @@ function isSteamProfileUrl(value) {
   }
 }
 
-function updateBotEmailLink() {
+function normalizeSteamProfileUrl(value) {
+  const url = new URL(value);
+  url.search = "";
+  url.hash = "";
+  url.pathname = `${url.pathname.replace(/\/+$/, "")}/`;
+  return url.toString();
+}
+
+function orderedCategories(categories) {
+  return Array.from(categoryButtons)
+    .map((button) => button.dataset.category)
+    .filter((category) => categories.includes(category));
+}
+
+function composePrivateReport(categories) {
+  const ordered = orderedCategories(categories);
+  return ordered.length
+    ? `${ordered.map((category) => templates[category].report).join(" ")} Please review the available account, communication and match data as relevant.`
+    : "";
+}
+
+function loadBotDailyEntries() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(botQueueStorageKey()) || "[]");
+    if (!Array.isArray(parsed)) return [];
+
+    return parsed.filter((entry) => entry && isSteamProfileUrl(entry.url)).map((entry) => ({
+      url: normalizeSteamProfileUrl(entry.url),
+      categories: orderedCategories(Array.isArray(entry.categories) ? entry.categories : ["farmingBot"]),
+      addedAt: entry.addedAt || new Date().toISOString(),
+    }));
+  } catch {
+    return [];
+  }
+}
+
+let botQueueDate = localDateStamp();
+let botDailyEntries = loadBotDailyEntries();
+
+function ensureCurrentBotQueueDate() {
+  const today = localDateStamp();
+  if (today === botQueueDate) return;
+
+  botQueueDate = today;
+  botDailyEntries = loadBotDailyEntries();
+  renderBotDailyEntries();
+}
+
+function saveBotDailyEntries() {
+  try {
+    localStorage.setItem(botQueueStorageKey(), JSON.stringify(botDailyEntries));
+    return true;
+  } catch {
+    botUrlStatus.textContent = "This browser could not save the list. Check its storage settings.";
+    botUrlStatus.classList.remove("valid");
+    botUrlStatus.classList.add("invalid");
+    return false;
+  }
+}
+
+function composeDailyBotEmail() {
+  if (!botDailyEntries.length) return "";
+
+  const entries = botDailyEntries.flatMap((entry, index) => [
+    `${index + 1}. Steam profile: ${entry.url}`,
+    "Observed behaviour:",
+    composePrivateReport(entry.categories),
+    "",
+  ]);
+
+  return [
+    "Hello Counter-Strike Team,",
+    "",
+    `I would like to report the following suspected farming bot accounts observed on ${localDateStamp()}:`,
+    "",
+    ...entries,
+    "Thank you.",
+  ].join("\n");
+}
+
+function renderBotDailyEntries() {
+  botDailyList.replaceChildren();
+
+  botDailyEntries.forEach((entry) => {
+    const item = document.createElement("div");
+    item.className = "bot-daily-entry";
+
+    const url = document.createElement("span");
+    url.className = "bot-daily-url";
+    url.textContent = entry.url;
+    url.title = entry.url;
+
+    const categories = document.createElement("span");
+    categories.className = "bot-daily-categories";
+    categories.textContent = entry.categories.map((category) => categoryHelp[category].name).join(" · ");
+
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "bot-daily-remove";
+    remove.textContent = "Remove";
+    remove.addEventListener("click", () => {
+      botDailyEntries = botDailyEntries.filter((candidate) => candidate.url !== entry.url);
+      saveBotDailyEntries();
+      renderBotDailyEntries();
+    });
+
+    item.append(url, categories, remove);
+    botDailyList.appendChild(item);
+  });
+
+  const count = botDailyEntries.length;
+  botDailyCount.textContent = `${count} ${count === 1 ? "profile" : "profiles"}`;
+  botDailyEmpty.hidden = count > 0;
+  clearBotDailyList.disabled = count === 0;
+  botEmailBody.value = composeDailyBotEmail();
+  copyBotEmail.disabled = count === 0;
+}
+
+function updateBotProfileInput() {
+  ensureCurrentBotQueueDate();
   const profileUrl = botProfileUrl.value.trim();
   const hasValue = profileUrl.length > 0;
   const isValid = isSteamProfileUrl(profileUrl);
@@ -263,34 +400,42 @@ function updateBotEmailLink() {
   botProfileUrl.classList.toggle("invalid", hasValue && !isValid);
   botUrlStatus.classList.toggle("valid", isValid);
   botUrlStatus.classList.toggle("invalid", hasValue && !isValid);
+  addBotToDailyList.disabled = !isValid;
 
   if (!isValid) {
-    sendBotEmail.removeAttribute("href");
-    sendBotEmail.classList.add("disabled");
-    sendBotEmail.setAttribute("aria-disabled", "true");
     botUrlStatus.textContent = hasValue
       ? "Enter a valid Steam Community profile URL."
-      : "Paste the Steam profile URL to prepare the email.";
+      : "Paste a Steam profile URL to add it to today's list.";
     return;
   }
 
-  const subject = "Farming Bot Report";
-  const body = [
-    "Hello Counter-Strike Team,",
-    "",
-    "I would like to report a suspected farming bot account:",
-    profileUrl,
-    "",
-    "Observed behaviour:",
-    reportText.value,
-    "",
-    "Thank you.",
-  ].join("\n");
+  botUrlStatus.textContent = "Valid profile URL. Add it to today's list.";
+}
 
-  sendBotEmail.href = `mailto:csgoteamfeedback@valvesoftware.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  sendBotEmail.classList.remove("disabled");
-  sendBotEmail.setAttribute("aria-disabled", "false");
-  botUrlStatus.textContent = "Email ready. Your mail app will open before anything is sent.";
+function addCurrentBotToDailyList() {
+  ensureCurrentBotQueueDate();
+  const rawUrl = botProfileUrl.value.trim();
+  if (!isSteamProfileUrl(rawUrl)) return;
+
+  const url = normalizeSteamProfileUrl(rawUrl);
+  const categories = orderedCategories(Array.from(selectedCategories));
+  const existing = botDailyEntries.find((entry) => entry.url === url);
+
+  if (existing) {
+    existing.categories = orderedCategories([...new Set([...existing.categories, ...categories])]);
+  } else {
+    botDailyEntries.push({ url, categories, addedAt: new Date().toISOString() });
+  }
+
+  if (!saveBotDailyEntries()) return;
+
+  botProfileUrl.value = "";
+  renderBotDailyEntries();
+  updateBotProfileInput();
+  botUrlStatus.textContent = existing
+    ? "Profile already saved; its selected categories were merged."
+    : "Profile added to today's list.";
+  botUrlStatus.classList.add("valid");
 }
 
 function applyFilter(filter) {
@@ -327,9 +472,7 @@ function updateOutput() {
 
   const hasSelection = selected.length > 0;
 
-  reportText.value = hasSelection
-    ? `${selected.map((category) => templates[category].report).join(" ")} Please review the available account, communication and match data as relevant.`
-    : "";
+  reportText.value = composePrivateReport(selected);
 
   commentText.value = hasSelection
     ? `${selected.map((category) => templates[category].comment).join(" ")} Evidence has been reported for review. OPN documents suspected cheating, farming bots and abusive behaviour without encouraging harassment or mass reporting. ${groupUrl}`
@@ -347,7 +490,7 @@ function updateOutput() {
     botRoute.hidden = !selectedCategories.has("farmingBot");
   }
 
-  updateBotEmailLink();
+  updateBotProfileInput();
 }
 
 function toggleCategory(category) {
@@ -447,13 +590,51 @@ filterButtons.forEach((button) => {
   button.addEventListener("click", () => applyFilter(button.dataset.filter));
 });
 
-botProfileUrl.addEventListener("input", updateBotEmailLink);
-
-sendBotEmail.addEventListener("click", (event) => {
-  if (sendBotEmail.getAttribute("aria-disabled") === "true") {
+botProfileUrl.addEventListener("input", updateBotProfileInput);
+botProfileUrl.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" && !addBotToDailyList.disabled) {
     event.preventDefault();
-    botProfileUrl.focus();
+    addCurrentBotToDailyList();
   }
+});
+addBotToDailyList.addEventListener("click", addCurrentBotToDailyList);
+
+clearBotDailyList.addEventListener("click", () => {
+  if (!window.confirm("Clear today's saved bot list after sending the email?")) return;
+  botDailyEntries = [];
+  saveBotDailyEntries();
+  renderBotDailyEntries();
+  botUrlStatus.textContent = "Today's sent list was cleared.";
+  botUrlStatus.classList.remove("invalid");
+  botUrlStatus.classList.add("valid");
+});
+
+document.querySelectorAll("[data-bot-copy]").forEach((button) => {
+  button.addEventListener("click", async () => {
+    const field = document.querySelector(`#${button.dataset.botCopy}`);
+    if (!field.value) return;
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(field.value);
+      } else if (!legacyCopy(field)) {
+        throw new Error("Copy command failed");
+      }
+
+      toast.querySelector("span").textContent = "Email field copied";
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove("show");
+        toast.querySelector("span").textContent = "Copied to clipboard";
+      }, 1800);
+    } catch {
+      field.focus();
+      field.select();
+      toast.querySelector("span").textContent = "Select the field and copy it manually";
+      toast.classList.add("show");
+    }
+  });
 });
 
 clearButton.addEventListener("click", clearSelection);
@@ -476,4 +657,5 @@ document.querySelectorAll(".copy-button").forEach((button) => {
 });
 
 applyFilter("all");
+renderBotDailyEntries();
 updateOutput();

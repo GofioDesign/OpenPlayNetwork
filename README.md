@@ -4,7 +4,7 @@ A lightweight, dependency-free web tool for filtering, combining and copying neu
 
 Steam group: https://steamcommunity.com/groups/OpenPlayNetwork
 
-Selecting **Farming bot** reveals a local-only Steam profile URL field and prepares a pre-filled email to Valve's CS2 feedback address.
+Selecting **Farming bot** reveals a daily, browser-local queue for Steam profile URLs. Duplicate profiles are merged, their selected report categories are retained, and one consolidated email can be copied at the end of the day for use outside Steam's browser.
 
 ## Use locally
 
