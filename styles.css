@@ -516,6 +516,8 @@ h1 {
 .card-header h3 { margin: 5px 0 0; font-size: 0.98rem; }
 .card-kicker { color: var(--cyan); font-size: 0.62rem; font-weight: 800; letter-spacing: 0.18em; }
 .card-kicker.public { color: #9b8cff; }
+.card-kicker.steam { color: #66c0f4; }
+.card-kicker.discord { color: #a9b1ff; }
 
 .copy-button {
   display: inline-flex;
@@ -553,6 +555,7 @@ textarea {
 
 textarea.empty { color: #617791; font-style: italic; }
 textarea::placeholder { color: #617791; opacity: 1; }
+.temporary-copy-field { position: fixed; left: -9999px; opacity: 0; pointer-events: none; }
 
 .guidance {
   display: flex;
@@ -565,6 +568,60 @@ textarea::placeholder { color: #617791; opacity: 1; }
 }
 
 .guidance svg { width: 16px; flex: 0 0 16px; fill: none; stroke: currentColor; stroke-width: 1.7; }
+
+.share-section {
+  margin-top: 24px;
+  padding: clamp(26px, 4vw, 44px);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(22px);
+}
+
+.share-heading { margin-bottom: 22px; }
+.share-message-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.share-message-grid .copy-card + .copy-card { margin-top: 0; }
+.share-copy-card textarea { height: 105px; }
+
+.share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.share-action {
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+  min-height: 38px;
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(5, 11, 22, 0.52);
+  color: #b8cbe1;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.72rem;
+  font-weight: 750;
+  text-decoration: none;
+  transition: 160ms ease;
+}
+
+.share-action:hover { border-color: var(--line-strong); color: var(--cyan); transform: translateY(-1px); }
+.share-action span {
+  display: grid;
+  min-width: 22px;
+  height: 22px;
+  place-items: center;
+  border-radius: 6px;
+  background: rgba(36, 198, 255, 0.09);
+  color: #c9f2ff;
+  font-size: 0.59rem;
+  font-weight: 850;
+}
+.share-note { margin: 13px 0 0; color: #647b96; font-size: 0.66rem; line-height: 1.5; }
 
 footer {
   display: flex;
@@ -602,6 +659,7 @@ footer {
 @media (max-width: 850px) {
   .report-tool { grid-template-columns: 1fr; }
   .category-panel { border-right: 0; border-bottom: 1px solid var(--line); }
+  .share-message-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 560px) {
@@ -614,10 +672,13 @@ footer {
   main { padding-block: 48px 40px; }
   .intro { margin-bottom: 34px; }
   .report-tool { border-radius: 18px; }
+  .share-section { padding: 24px 18px; border-radius: 18px; }
   .category-panel, .copy-panel { padding: 24px 18px; }
   .category { min-height: 88px; padding: 14px 12px; font-size: 0.8rem; }
   .category-icon { margin-bottom: 14px; }
   .copy-card { padding: 18px; }
+  .share-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .share-action { justify-content: flex-start; }
   textarea { height: 145px; font-size: 0.8rem; }
   footer { display: grid; gap: 5px; }
   .toast { right: 14px; bottom: 14px; left: 14px; justify-content: center; }

@@ -8,8 +8,15 @@
       content="Open Play Network standard report templates for Steam community reports."
     />
     <meta name="theme-color" content="#030711" />
+    <meta property="og:title" content="OPN Report Kit" />
+    <meta property="og:description" content="Create clear, neutral Steam reports and combine every behaviour you observed." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://gofiodesign.github.io/OpenPlayNetwork/" />
+    <meta property="og:image" content="https://gofiodesign.github.io/OpenPlayNetwork/assets/opn-logo.png" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href="https://gofiodesign.github.io/OpenPlayNetwork/" />
     <link rel="icon" href="assets/opn-logo.png" type="image/png" />
-    <link rel="stylesheet" href="styles.css?v=20260924.2" />
+    <link rel="stylesheet" href="styles.css?v=20260925.1" />
     <title>OPN Report Kit</title>
   </head>
   <body>
@@ -222,6 +229,57 @@
           </p>
         </div>
       </section>
+
+      <section class="share-section" aria-labelledby="share-title">
+        <div class="section-heading share-heading">
+          <span class="step">03</span>
+          <div>
+            <h2 id="share-title">Share the tool</h2>
+            <p>If you find this tool useful, feel free to share it with other players.</p>
+          </div>
+        </div>
+
+        <div class="share-message-grid">
+          <article class="copy-card share-copy-card" data-copy-target="steamShareText" tabindex="0" role="button" aria-label="Copy text for a Steam comment">
+            <div class="card-header">
+              <div>
+                <span class="card-kicker steam">STEAM</span>
+                <h3>Comment text</h3>
+              </div>
+              <button class="copy-button" type="button" data-copy-button="steamShareText" aria-label="Copy Steam comment text">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg>
+                <span>Copy</span>
+              </button>
+            </div>
+            <textarea id="steamShareText" readonly aria-label="Text to share in a Steam comment"></textarea>
+          </article>
+
+          <article class="copy-card share-copy-card" data-copy-target="discordShareText" tabindex="0" role="button" aria-label="Copy text for Discord">
+            <div class="card-header">
+              <div>
+                <span class="card-kicker discord">DISCORD</span>
+                <h3>Message text</h3>
+              </div>
+              <button class="copy-button" type="button" data-copy-button="discordShareText" aria-label="Copy Discord message text">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg>
+                <span>Copy</span>
+              </button>
+            </div>
+            <textarea id="discordShareText" readonly aria-label="Text to share on Discord"></textarea>
+          </article>
+        </div>
+
+        <div class="share-actions" aria-label="Other ways to share">
+          <a class="share-action" data-share-link="whatsapp" target="_blank" rel="noreferrer"><span>WA</span>WhatsApp</a>
+          <a class="share-action" data-share-link="telegram" target="_blank" rel="noreferrer"><span>TG</span>Telegram</a>
+          <a class="share-action" data-share-link="reddit" target="_blank" rel="noreferrer"><span>R</span>Reddit</a>
+          <a class="share-action" data-share-link="x" target="_blank" rel="noreferrer"><span>𝕏</span>X</a>
+          <a class="share-action" data-share-link="email"><span>@</span>Email</a>
+          <button class="share-action" id="copyShareLink" type="button"><span>⌁</span>Copy link</button>
+          <button class="share-action" id="nativeShare" type="button" hidden><span>↗</span>More</button>
+        </div>
+        <p class="share-note">For Steam and Discord, copy the prepared text and paste it into the comment, chat or channel you choose.</p>
+      </section>
     </main>
 
     <dialog class="info-dialog" id="categoryInfoDialog" aria-labelledby="categoryInfoTitle">
@@ -255,6 +313,6 @@
       <span>Copied to clipboard</span>
     </div>
 
-    <script src="script.js?v=20260924.2"></script>
+    <script src="script.js?v=20260925.1"></script>
   </body>
 </html>

@@ -1,4 +1,8 @@
 const groupUrl = "https://steamcommunity.com/groups/OpenPlayNetwork";
+const siteUrl = "https://gofiodesign.github.io/OpenPlayNetwork/";
+const shareTitle = "OPN Report Kit";
+const steamShareMessage = `Useful community tool: OPN Report Kit helps players create clear, neutral Steam reports by combining only the behaviours they observed. It also includes a daily farming-bot report list. ${siteUrl}`;
+const discordShareMessage = `OPN Report Kit — a free community tool for creating clear, neutral Steam reports. Select and combine observed behaviours, copy the report text, and keep a daily farming-bot list. ${siteUrl}`;
 
 const templates = {
   wallhack: {
@@ -228,6 +232,7 @@ categoryButtons.forEach((button) => {
 const categoryItems = document.querySelectorAll(".category-item");
 const filterButtons = document.querySelectorAll(".filter-chip");
 const copyCards = document.querySelectorAll(".copy-card");
+const reportCopyCards = document.querySelectorAll(".copy-panel > .copy-card");
 const clearButton = document.querySelector("#clearSelection");
 const selectedCount = document.querySelector("#selectedCount");
 const botRoute = document.querySelector("#botRoute");
@@ -240,6 +245,10 @@ const botDailyList = document.querySelector("#botDailyList");
 const botDailyEmpty = document.querySelector("#botDailyEmpty");
 const botDailyCount = document.querySelector("#botDailyCount");
 const clearBotDailyList = document.querySelector("#clearBotDailyList");
+const steamShareText = document.querySelector("#steamShareText");
+const discordShareText = document.querySelector("#discordShareText");
+const copyShareLink = document.querySelector("#copyShareLink");
+const nativeShare = document.querySelector("#nativeShare");
 const categoryInfoDialog = document.querySelector("#categoryInfoDialog");
 const categoryInfoTitle = document.querySelector("#categoryInfoTitle");
 const categoryInfoDefinition = document.querySelector("#categoryInfoDefinition");
@@ -482,7 +491,7 @@ function updateOutput() {
   commentText.classList.toggle("empty", !hasSelection);
   clearButton.disabled = !hasSelection;
   selectedCount.textContent = String(selected.length);
-  copyCards.forEach((card) => card.setAttribute("aria-disabled", String(!hasSelection)));
+  reportCopyCards.forEach((card) => card.setAttribute("aria-disabled", String(!hasSelection)));
 
   if (activeFilter === "selected") {
     applyFilter("selected");
@@ -524,6 +533,56 @@ function legacyCopy(textarea) {
   textarea.select();
   textarea.setSelectionRange(0, textarea.value.length);
   return document.execCommand("copy");
+}
+
+function showToast(message, duration = 1800) {
+  toast.querySelector("span").textContent = message;
+  toast.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+    toast.querySelector("span").textContent = "Copied to clipboard";
+  }, duration);
+}
+
+async function copyPlainText(value, successMessage) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(value);
+    } else {
+      const temporaryField = document.createElement("textarea");
+      temporaryField.value = value;
+      temporaryField.setAttribute("readonly", "");
+      temporaryField.className = "temporary-copy-field";
+      document.body.appendChild(temporaryField);
+      const copied = legacyCopy(temporaryField);
+      temporaryField.remove();
+      if (!copied) throw new Error("Copy command failed");
+    }
+
+    showToast(successMessage);
+  } catch {
+    showToast("Copy unavailable — select and copy the text manually", 2600);
+  }
+}
+
+function prepareShareOptions() {
+  steamShareText.value = steamShareMessage;
+  discordShareText.value = discordShareMessage;
+
+  const links = {
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(discordShareMessage)}`,
+    telegram: `https://t.me/share/url?url=${encodeURIComponent(siteUrl)}&text=${encodeURIComponent("A free community tool for clear, neutral Steam reports.")}`,
+    reddit: `https://www.reddit.com/submit?url=${encodeURIComponent(siteUrl)}&title=${encodeURIComponent(shareTitle)}`,
+    x: `https://twitter.com/intent/tweet?text=${encodeURIComponent("A free community tool for clear, neutral Steam reports.")}&url=${encodeURIComponent(siteUrl)}`,
+    email: `mailto:?subject=${encodeURIComponent(shareTitle)}&body=${encodeURIComponent(discordShareMessage)}`,
+  };
+
+  document.querySelectorAll("[data-share-link]").forEach((link) => {
+    link.href = links[link.dataset.shareLink];
+  });
+
+  nativeShare.hidden = typeof navigator.share !== "function";
 }
 
 async function copyContent(targetId) {
@@ -656,6 +715,19 @@ document.querySelectorAll(".copy-button").forEach((button) => {
   });
 });
 
+copyShareLink.addEventListener("click", () => copyPlainText(siteUrl, "Link copied"));
+
+nativeShare.addEventListener("click", async () => {
+  try {
+    await navigator.share({ title: shareTitle, text: "A free community tool for clear, neutral Steam reports.", url: siteUrl });
+  } catch (error) {
+    if (error.name !== "AbortError") {
+      copyPlainText(discordShareMessage, "Share text copied");
+    }
+  }
+});
+
 applyFilter("all");
 renderBotDailyEntries();
 updateOutput();
+prepareShareOptions();
