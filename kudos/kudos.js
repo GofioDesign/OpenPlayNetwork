@@ -1,4 +1,4 @@
-const kudosUrl = "https://gofiodesign.github.io/OpenPlayNetwork/kudos/";
+const groupUrl = "https://steamcommunity.com/groups/OpenPlayNetwork";
 
 const qualities = {
   positiveAttitude: {
@@ -161,7 +161,7 @@ function composeComment() {
   const sentences = selected.map((quality) => qualities[quality].comment).join(" ");
   const ending = "GG — thanks for making the match better for everyone.";
   const promotion = includePromotion.checked
-    ? ` Recognise good players with OPN Player Kudos: ${kudosUrl}`
+    ? ` Join OpenPlay Network — a community for fair play and better matches: ${groupUrl}`
     : "";
   return `${sentences} ${ending}${promotion}`;
 }
