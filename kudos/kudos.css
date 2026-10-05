@@ -1,0 +1,55 @@
+:root {
+  --kudos: #35e5ad;
+  --kudos-soft: rgba(53, 229, 173, 0.12);
+}
+
+.kudos-page .ambient-one { background: var(--kudos); }
+.kudos-page .eyebrow,
+.kudos-page .step { color: var(--kudos); }
+.kudos-page .eyebrow span { background: var(--kudos); }
+.kudos-page .step { border-color: rgba(53, 229, 173, 0.55); }
+.kudos-page .filter-chip.active {
+  border-color: rgba(53, 229, 173, 0.58);
+  background: rgba(53, 229, 173, 0.1);
+  color: var(--kudos);
+}
+.kudos-page .category.active {
+  border-color: var(--kudos);
+  background: linear-gradient(135deg, rgba(53, 229, 173, 0.15), rgba(36, 198, 255, 0.05));
+  box-shadow: inset 0 0 0 1px rgba(53, 229, 173, 0.13), 0 8px 28px rgba(53, 229, 173, 0.08);
+}
+.kudos-page .category.active .category-icon { color: var(--kudos); }
+.kudos-page .category-info-button:hover { border-color: rgba(53, 229, 173, 0.55); color: var(--kudos); }
+.kudos-page .tool-link.report-link { border-color: var(--line); background: rgba(36, 198, 255, 0.06); color: #cbeeff; }
+.kudos-page .tool-link.report-link:hover { border-color: var(--line-strong); color: var(--cyan); }
+.kudos-tool { grid-template-columns: minmax(360px, 1.08fr) minmax(360px, 0.92fr); }
+.kudos-copy-card { min-height: 310px; }
+.kudos-copy-card textarea { height: 210px; }
+.kudos-copy-card.copied { border-color: rgba(53, 229, 173, 0.7); }
+
+.promotion-option {
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  margin-top: 14px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(3, 8, 17, 0.42);
+  cursor: pointer;
+}
+.promotion-option input { margin: 3px 0 0; accent-color: var(--kudos); }
+.promotion-option span { display: grid; gap: 3px; }
+.promotion-option strong { color: #c8d8e9; font-size: 0.73rem; }
+.promotion-option small { color: #6f87a1; font-size: 0.64rem; line-height: 1.4; }
+.kudos-guidance { margin-top: 14px; }
+.kudos-page .info-dialog-kicker { color: var(--kudos); }
+
+@media (max-width: 850px) {
+  .kudos-tool { grid-template-columns: 1fr; }
+  .kudos-copy-card { min-height: 0; }
+}
+
+@media (max-width: 560px) {
+  .kudos-copy-card textarea { height: 245px; }
+}

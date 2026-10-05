@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Create a personal Steam profile comment to recognise a helpful, skilled or team-oriented player." />
+    <meta name="theme-color" content="#030711" />
+    <meta property="og:title" content="OPN Player Kudos" />
+    <meta property="og:description" content="Recognise good players with a personal, positive Steam profile comment." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://gofiodesign.github.io/OpenPlayNetwork/kudos/" />
+    <meta property="og:image" content="https://gofiodesign.github.io/OpenPlayNetwork/assets/opn-logo.png" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href="https://gofiodesign.github.io/OpenPlayNetwork/kudos/" />
+    <link rel="icon" href="../assets/opn-logo.png" type="image/png" />
+    <link rel="stylesheet" href="../styles.css?v=20261005.1" />
+    <link rel="stylesheet" href="kudos.css?v=20261005.1" />
+    <title>OPN Player Kudos</title>
+  </head>
+  <body class="kudos-page">
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="brand" href="https://steamcommunity.com/groups/OpenPlayNetwork" target="_blank" rel="noreferrer">
+        <img src="../assets/opn-logo.png" alt="Open Play Network logo" />
+        <span>
+          <strong>OPEN PLAY NETWORK</strong>
+          <small>Player Kudos</small>
+        </span>
+      </a>
+      <nav class="header-actions" aria-label="Open Play Network tools">
+        <a class="tool-link report-link" href="../">Report Kit</a>
+        <a class="group-link" href="https://steamcommunity.com/groups/OpenPlayNetwork" target="_blank" rel="noreferrer">
+          Steam group
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></svg>
+        </a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <p class="eyebrow"><span></span> RECOGNISE GOOD PLAY</p>
+        <h1 id="page-title">Notice. Appreciate. Share.</h1>
+        <p>
+          Select the qualities you genuinely noticed. Player Kudos combines them into a personal Steam profile comment ready to copy.
+        </p>
+      </section>
+
+      <section class="report-tool kudos-tool" aria-label="Positive player comment generator">
+        <div class="category-panel">
+          <div class="section-heading">
+            <span class="step">01</span>
+            <div>
+              <h2>Player qualities</h2>
+              <p>Select everything this player brought to the match.</p>
+            </div>
+          </div>
+
+          <div class="filter-block">
+            <span class="filter-label">Type of contribution</span>
+            <div class="filter-bar" role="group" aria-label="Filter player qualities">
+              <button class="filter-chip active" type="button" data-filter="all" aria-pressed="true">All</button>
+              <button class="filter-chip" type="button" data-filter="individual" aria-pressed="false">Individual</button>
+              <button class="filter-chip" type="button" data-filter="teamwork" aria-pressed="false">Teamwork</button>
+              <button class="filter-chip selected-filter" type="button" data-filter="selected" aria-pressed="false">
+                Selected <span id="selectedCount">0</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="category-grid" role="group" aria-label="Positive player qualities">
+            <button class="category" type="button" aria-pressed="false" data-quality="positiveAttitude" data-area="individual">
+              <span class="category-icon">POS</span><span>Positive attitude</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="skilledPlay" data-area="individual">
+              <span class="category-icon">SKL</span><span>Skilled play</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="smartDecisions" data-area="individual">
+              <span class="category-icon">IQ</span><span>Smart decisions</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="consistent" data-area="individual">
+              <span class="category-icon">CON</span><span>Consistent</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="calmUnderPressure" data-area="individual">
+              <span class="category-icon">CLM</span><span>Calm under pressure</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="fairPlay" data-area="individual">
+              <span class="category-icon">FAIR</span><span>Fair play</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="helpful" data-area="individual">
+              <span class="category-icon">HELP</span><span>Helpful</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="respectful" data-area="individual">
+              <span class="category-icon">RES</span><span>Respectful</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="teamPlayer" data-area="teamwork">
+              <span class="category-icon">TEAM</span><span>Team player</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="clearCommunication" data-area="teamwork">
+              <span class="category-icon">COM</span><span>Clear communication</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="usefulCalls" data-area="teamwork">
+              <span class="category-icon">CALL</span><span>Useful calls</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="supportivePlay" data-area="teamwork">
+              <span class="category-icon">SUP</span><span>Supportive play</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="utilityUse" data-area="teamwork">
+              <span class="category-icon">UTIL</span><span>Thoughtful utility</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="economySharing" data-area="teamwork">
+              <span class="category-icon">ECO</span><span>Shared economy</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="objectiveFocused" data-area="teamwork">
+              <span class="category-icon">OBJ</span><span>Objective focused</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="positiveLeadership" data-area="teamwork">
+              <span class="category-icon">LEAD</span><span>Positive leadership</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="adaptability" data-area="teamwork">
+              <span class="category-icon">ADP</span><span>Adaptable</span>
+            </button>
+            <button class="category" type="button" aria-pressed="false" data-quality="respectfulOpponent" data-area="teamwork">
+              <span class="category-icon">GG</span><span>Respectful opponent</span>
+            </button>
+          </div>
+
+          <button class="clear-button" id="clearSelection" type="button" disabled>
+            <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
+            Clear selection
+          </button>
+        </div>
+
+        <div class="copy-panel">
+          <div class="section-heading">
+            <span class="step">02</span>
+            <div>
+              <h2>Copy your compliment</h2>
+              <p>Review the message, then click the card to copy it.</p>
+            </div>
+          </div>
+
+          <article class="copy-card kudos-copy-card" id="kudosCopyCard" tabindex="0" role="button" aria-label="Copy Steam profile compliment" aria-disabled="true">
+            <div class="card-header">
+              <div>
+                <span class="card-kicker public">PUBLIC</span>
+                <h3>Steam profile comment</h3>
+              </div>
+              <button class="copy-button" id="copyKudos" type="button" aria-label="Copy Steam profile compliment">
+                <svg aria-hidden="true" viewBox="0 0 24 24"><rect x="8" y="8" width="11" height="11" rx="2" /><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" /></svg>
+                <span>Copy</span>
+              </button>
+            </div>
+            <textarea id="kudosText" readonly aria-label="Generated Steam profile compliment" placeholder="Select one or more qualities…"></textarea>
+          </article>
+
+          <label class="promotion-option" for="includePromotion">
+            <input id="includePromotion" type="checkbox" checked />
+            <span>
+              <strong>Include the Player Kudos link</strong>
+              <small>Helps other players recognise positive behaviour too.</small>
+            </span>
+          </label>
+
+          <p class="guidance kudos-guidance">
+            <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 8h.01" /></svg>
+            Keep it personal and accurate. Do not paste identical comments indiscriminately or use this tool to trade reputation.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="info-dialog" id="qualityInfoDialog" aria-labelledby="qualityInfoTitle">
+      <div class="info-dialog-content">
+        <button class="info-dialog-close" id="closeQualityInfo" type="button" aria-label="Close information">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        </button>
+        <span class="info-dialog-kicker">PLAYER QUALITY</span>
+        <h2 id="qualityInfoTitle"></h2>
+        <div class="info-dialog-section">
+          <h3>What it means</h3>
+          <p id="qualityInfoDefinition"></p>
+        </div>
+        <div class="info-dialog-section">
+          <h3>When to choose it</h3>
+          <p id="qualityInfoExample"></p>
+        </div>
+        <p class="info-dialog-caution">Choose only qualities you personally observed during the match.</p>
+      </div>
+    </dialog>
+
+    <footer>
+      <span>OPN · Open Play Network</span>
+      <span>Fair play also deserves to be documented.</span>
+    </footer>
+
+    <div class="toast" role="status" aria-live="polite" aria-atomic="true">
+      <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" /></svg>
+      <span>Compliment copied</span>
+    </div>
+
+    <script src="kudos.js?v=20261005.1"></script>
+  </body>
+</html>

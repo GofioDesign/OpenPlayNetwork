@@ -95,6 +95,18 @@ footer {
 
 .group-link svg { width: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 .group-link:hover { color: var(--cyan); }
+.header-actions { display: flex; gap: 16px; align-items: center; }
+.tool-link {
+  padding: 8px 11px;
+  border: 1px solid rgba(53, 229, 173, 0.3);
+  border-radius: 9px;
+  background: rgba(53, 229, 173, 0.07);
+  color: #bff8e4;
+  font-size: 0.76rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+.tool-link:hover { border-color: rgba(53, 229, 173, 0.65); color: var(--success); }
 
 main { padding-block: 70px 60px; }
 
@@ -664,17 +676,19 @@ footer {
 
 @media (max-width: 560px) {
   .site-header, main, footer { width: min(100% - 28px, 1180px); }
-  .site-header { padding-block: 18px; }
+  .site-header { flex-wrap: wrap; gap: 14px; padding-block: 18px; }
   .brand img { width: 48px; height: 48px; border-radius: 13px; }
   .brand strong { font-size: 0.72rem; }
   .brand small, .group-link { font-size: 0.7rem; }
+  .header-actions { width: 100%; gap: 7px; justify-content: space-between; }
+  .tool-link { padding: 7px 8px; font-size: 0.66rem; }
   .group-link { gap: 4px; }
   main { padding-block: 48px 40px; }
   .intro { margin-bottom: 34px; }
   .report-tool { border-radius: 18px; }
   .share-section { padding: 24px 18px; border-radius: 18px; }
   .category-panel, .copy-panel { padding: 24px 18px; }
-  .category { min-height: 88px; padding: 14px 12px; font-size: 0.8rem; }
+  .category { min-height: 88px; padding: 14px 38px 14px 12px; font-size: 0.8rem; }
   .category-icon { margin-bottom: 14px; }
   .copy-card { padding: 18px; }
   .share-actions { display: grid; grid-template-columns: 1fr 1fr; }
