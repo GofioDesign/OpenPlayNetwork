@@ -109,6 +109,102 @@ const qualities = {
     definition: "Competing seriously while respecting the opposing team and the shared experience.",
     example: "Choose this for good sportsmanship, friendly interaction and dignity in either victory or defeat.",
   },
+  negativeAttitude: {
+    name: "Negative attitude",
+    comment: "Kept a negative attitude that made the match harder for others.",
+    definition: "Persistent negativity that reduces cooperation or enjoyment beyond an understandable moment of frustration.",
+    example: "Choose this when repeated complaining, defeatism or hostility affected the match rather than one isolated reaction.",
+  },
+  poorSportsmanship: {
+    name: "Poor sportsmanship",
+    comment: "Showed poor sportsmanship when rounds did not go their way.",
+    definition: "Responding to competition, mistakes, victory or defeat without basic fairness and respect.",
+    example: "Choose this for repeated taunting, gloating, rage quitting or hostility toward opponents after setbacks.",
+  },
+  givesUp: {
+    name: "Gives up / AFK",
+    comment: "Stopped participating or appeared to give up before the match was over.",
+    definition: "Withdrawing from active play while the match is still ongoing, without an evident unavoidable reason.",
+    example: "Choose this after repeated or prolonged inactivity, intentional idling or openly refusing to continue—not a brief technical interruption.",
+  },
+  blamesOthers: {
+    name: "Blames others",
+    comment: "Repeatedly blamed teammates instead of focusing on solutions.",
+    definition: "Directing responsibility toward teammates in a repetitive or hostile way rather than helping the team recover.",
+    example: "Choose this when blame continued across rounds and replaced useful information or constructive suggestions.",
+  },
+  disrespectful: {
+    name: "Disrespectful",
+    comment: "Communicated disrespectfully during the match.",
+    definition: "Communication that belittles, humiliates or dismisses other players.",
+    example: "Choose this for a repeated pattern of insults or contempt. Serious abuse should also be reported privately through Steam.",
+  },
+  selfishPlay: {
+    name: "Selfish play",
+    comment: "Prioritised personal statistics over useful team play.",
+    definition: "Repeatedly choosing individual score or attention over decisions that would reasonably help the team.",
+    example: "Choose this when stat chasing, baiting or unnecessary risk repeatedly harmed shared objectives.",
+  },
+  ignoresObjective: {
+    name: "Ignores objective",
+    comment: "Frequently ignored the objective and the team's immediate needs.",
+    definition: "Failing to respond to the actual win condition despite having a reasonable opportunity to do so.",
+    example: "Choose this for repeated disregard of plants, defuses, sites, time or survival—not one tactical disagreement.",
+  },
+  refusesToAdapt: {
+    name: "Refuses to adapt",
+    comment: "Did not adapt when the situation or team composition changed.",
+    definition: "Persisting with an ineffective role or approach despite repeated evidence that the team needs something different.",
+    example: "Choose this when the player repeatedly rejected reasonable adjustments, not merely because they preferred another strategy.",
+  },
+  poorCommunication: {
+    name: "Poor communication",
+    comment: "Important information was often missing or communicated too late.",
+    definition: "Communication that repeatedly fails to provide relevant information the team could reasonably use.",
+    example: "Choose this when avoidable omissions or very late information repeatedly affected coordination.",
+  },
+  floodsComms: {
+    name: "Floods communications",
+    comment: "Frequently talked over others or filled communications with unnecessary noise.",
+    definition: "Using voice or text so heavily that useful information becomes difficult to hear or read.",
+    example: "Choose this for a repeated pattern of talking over calls, playing noise or continuing unrelated discussion during key moments.",
+  },
+  misleadingCalls: {
+    name: "Misleading calls",
+    comment: "Made calls that were unclear, contradictory or unsupported by available information.",
+    definition: "Repeated information or instructions that confuse teammates rather than helping them decide.",
+    example: "Choose this for recurring inaccurate or contradictory calls—not one understandable mistake.",
+  },
+  noTeamPlay: {
+    name: "No team play",
+    comment: "Played separately from the team and rarely coordinated with others.",
+    definition: "Repeatedly acting in isolation when coordination was reasonably possible and useful.",
+    example: "Choose this when the player consistently ignored shared plans, spacing or timing rather than making an occasional solo play.",
+  },
+  refusesSupport: {
+    name: "Does not support",
+    comment: "Rarely supported teammates with trades, cover or positioning.",
+    definition: "Repeatedly failing to provide reasonable support when positioned or equipped to do so.",
+    example: "Choose this when avoidable distance, baiting or lack of cover repeatedly left teammates unsupported.",
+  },
+  economySelfish: {
+    name: "Selfish economy",
+    comment: "Managed money and equipment without considering the team's economy.",
+    definition: "Treating shared economic decisions as purely individual despite clear team needs.",
+    example: "Choose this for repeated refusal to coordinate buys, unnecessary force buys or withholding equipment when sharing was reasonable.",
+  },
+  controllingLeadership: {
+    name: "Controlling leadership",
+    comment: "Tried to direct the team in a way that became controlling or confrontational.",
+    definition: "Attempting to lead without listening, while pressuring or blaming teammates who choose differently.",
+    example: "Choose this when orders, interruptions or hostility repeatedly replaced collaborative decision-making.",
+  },
+  disruptivePlay: {
+    name: "Disruptive play",
+    comment: "Repeatedly disrupted teammates through blocking, team damage or other obstructive behaviour.",
+    definition: "Conduct that interferes with teammates' ability to participate normally in the match.",
+    example: "Choose this for a repeated pattern that appears deliberate. Serious griefing should also be reported privately through Steam.",
+  },
 };
 
 const qualityButtons = document.querySelectorAll(".category");
@@ -119,14 +215,17 @@ const clearButton = document.querySelector("#clearSelection");
 const selectedCount = document.querySelector("#selectedCount");
 const includePromotion = document.querySelector("#includePromotion");
 const filterButtons = document.querySelectorAll(".filter-chip");
+const toneButtons = document.querySelectorAll(".tone-chip");
 const infoDialog = document.querySelector("#qualityInfoDialog");
 const infoTitle = document.querySelector("#qualityInfoTitle");
 const infoDefinition = document.querySelector("#qualityInfoDefinition");
 const infoExample = document.querySelector("#qualityInfoExample");
+const infoKicker = document.querySelector("#qualityInfoKicker");
 const closeInfo = document.querySelector("#closeQualityInfo");
 const toast = document.querySelector(".toast");
 const selectedQualities = new Set();
 let activeFilter = "all";
+let activeTone = "positive";
 let toastTimer;
 
 qualityButtons.forEach((button) => {
@@ -134,6 +233,7 @@ qualityButtons.forEach((button) => {
   const item = document.createElement("div");
   item.className = "category-item";
   item.dataset.area = button.dataset.area;
+  item.dataset.tone = button.dataset.tone;
   button.parentNode.insertBefore(item, button);
   item.appendChild(button);
 
@@ -159,9 +259,14 @@ function composeComment() {
   if (!selected.length) return "";
 
   const sentences = selected.map((quality) => qualities[quality].comment).join(" ");
-  const ending = "GG — thanks for making the match better for everyone.";
+  const tones = new Set(selected.map((quality) => document.querySelector(`[data-quality="${quality}"]`).dataset.tone));
+  const ending = tones.size > 1
+    ? "There were good moments, but the match would have been better with more consistent teamwork and respect."
+    : tones.has("negative")
+      ? "I hope future matches are approached with more respect, cooperation and focus."
+      : "GG — thanks for making the match better for everyone.";
   const promotion = includePromotion.checked
-    ? ` Join OpenPlay Network — a community for fair play and better matches: ${groupUrl}`
+    ? `\n\nJoin OpenPlay Network — a community for fair play and better matches: ${groupUrl}`
     : "";
   return `${sentences} ${ending}${promotion}`;
 }
@@ -172,7 +277,8 @@ function applyFilter(filter) {
     const button = item.querySelector(".category");
     const matchesArea = filter === "all" || item.dataset.area === filter;
     const matchesSelection = filter === "selected" && selectedQualities.has(button.dataset.quality);
-    item.hidden = filter === "selected" ? !matchesSelection : !matchesArea;
+    const matchesTone = activeTone === "both" || item.dataset.tone === activeTone;
+    item.hidden = filter === "selected" ? !matchesSelection : !(matchesArea && matchesTone);
   });
 
   filterButtons.forEach((button) => {
@@ -180,6 +286,16 @@ function applyFilter(filter) {
     button.classList.toggle("active", isActive);
     button.setAttribute("aria-pressed", String(isActive));
   });
+}
+
+function applyTone(tone) {
+  activeTone = tone;
+  toneButtons.forEach((button) => {
+    const isActive = button.dataset.toneFilter === tone;
+    button.classList.toggle("active", isActive);
+    button.setAttribute("aria-pressed", String(isActive));
+  });
+  applyFilter(activeFilter);
 }
 
 function updateOutput() {
@@ -220,7 +336,7 @@ function showToast(message, duration = 1800) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => {
     toast.classList.remove("show");
-    toast.querySelector("span").textContent = "Compliment copied";
+    toast.querySelector("span").textContent = "Feedback copied";
   }, duration);
 }
 
@@ -233,7 +349,7 @@ function legacyCopy(field) {
 
 async function copyComment() {
   if (!kudosText.value) {
-    showToast("Select at least one quality");
+    showToast("Select at least one observation");
     return;
   }
 
@@ -246,7 +362,7 @@ async function copyComment() {
 
     kudosCopyCard.classList.add("copied");
     copyKudosButton.querySelector("span").textContent = "Copied";
-    showToast("Compliment copied");
+    showToast("Feedback copied");
     setTimeout(() => {
       kudosCopyCard.classList.remove("copied");
       copyKudosButton.querySelector("span").textContent = "Copy";
@@ -259,6 +375,9 @@ async function copyComment() {
 
 function openInfo(quality) {
   const content = qualities[quality];
+  const button = document.querySelector(`[data-quality="${quality}"]`);
+  infoKicker.textContent = button.dataset.tone === "negative" ? "NEGATIVE OBSERVATION" : "POSITIVE OBSERVATION";
+  infoKicker.classList.toggle("negative", button.dataset.tone === "negative");
   infoTitle.textContent = content.name;
   infoDefinition.textContent = content.definition;
   infoExample.textContent = content.example;
@@ -275,6 +394,10 @@ document.querySelectorAll(".category-info-button").forEach((button) => {
 
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => applyFilter(button.dataset.filter));
+});
+
+toneButtons.forEach((button) => {
+  button.addEventListener("click", () => applyTone(button.dataset.toneFilter));
 });
 
 clearButton.addEventListener("click", clearSelection);
