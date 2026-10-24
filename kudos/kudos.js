@@ -89,6 +89,17 @@ const qualities = {
       extreme: { label: "Abusive", comment: "Used serious insults or abusive conduct toward other players." },
     },
   },
+  participation: {
+    name: "Participation / AFK", icon: "AFK", area: "individual",
+    definition: "How consistently the player remained present and actively participated in the match.",
+    ratings: {
+      positive: { label: "Fully active", comment: "Remained present and actively participated throughout the match." },
+      neutral: { label: "Brief absence", comment: "Had brief periods of inactivity without a major effect on the team." },
+      negative: { label: "Frequently AFK", comment: "Was repeatedly AFK or inactive during important parts of the match." },
+      zero: { label: "No participation", comment: "Did not meaningfully participate during the observed match." },
+      extreme: { label: "Team-harming AFK", comment: "Extended or repeated AFK behaviour severely harmed the team's ability to compete." },
+    },
+  },
   teamPlay: {
     name: "Team play", icon: "TEAM", area: "teamwork",
     definition: "Whether the player prioritised coordination and the shared result over personal statistics.",
