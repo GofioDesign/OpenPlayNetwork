@@ -8,6 +8,8 @@ const qualities = {
       positive: { label: "Positive", comment: "Maintained a positive, constructive attitude throughout the match." },
       neutral: { label: "Neutral", comment: "Had a neutral attitude that did not noticeably affect the match." },
       negative: { label: "Negative", comment: "Maintained a negative attitude that made the match harder for others." },
+      zero: { label: "Absent", comment: "Showed no constructive attitude or engagement during the match." },
+      extreme: { label: "Toxic", comment: "Used insults or intense hostility that seriously damaged the team's experience." },
     },
   },
   skilledPlay: {
@@ -17,6 +19,8 @@ const qualities = {
       positive: { label: "Highly skilled", comment: "Showed excellent individual skill and mechanics." },
       neutral: { label: "Regular", comment: "Showed an ordinary level of mechanical skill for the match." },
       negative: { label: "Lacks skill", comment: "Struggled with the basic mechanics needed in several situations." },
+      zero: { label: "No skill shown", comment: "Showed no effective use of the basic mechanics during the observed match." },
+      extreme: { label: "Team-harming", comment: "The repeated mechanical failures had a severely negative effect on the team's ability to compete." },
     },
   },
   decisions: {
@@ -26,6 +30,8 @@ const qualities = {
       positive: { label: "Smart", comment: "Made smart decisions and showed strong game sense." },
       neutral: { label: "Mixed", comment: "Made a mixture of effective and questionable decisions." },
       negative: { label: "Poor", comment: "Repeatedly made decisions that put the player or team at a disadvantage." },
+      zero: { label: "Absent", comment: "Showed no meaningful decision-making contribution during the match." },
+      extreme: { label: "Severely harmful", comment: "Repeated decisions caused severe and recurring harm to the team's chances." },
     },
   },
   consistency: {
@@ -35,6 +41,8 @@ const qualities = {
       positive: { label: "Consistent", comment: "Played consistently and could be relied on round after round." },
       neutral: { label: "Uneven", comment: "Performance varied between effective and ineffective moments." },
       negative: { label: "Inconsistent", comment: "Performance was repeatedly inconsistent across the match." },
+      zero: { label: "Absent", comment: "Showed no sustained level of consistent performance during the match." },
+      extreme: { label: "Unreliable", comment: "The player was so unreliable that team coordination was seriously affected." },
     },
   },
   composure: {
@@ -44,6 +52,8 @@ const qualities = {
       positive: { label: "Calm", comment: "Stayed calm and effective under pressure." },
       neutral: { label: "Variable", comment: "Handled some pressured situations well but struggled in others." },
       negative: { label: "Loses composure", comment: "Frequently lost composure when the match became difficult." },
+      zero: { label: "Absent", comment: "Showed no composure in the pressured situations observed." },
+      extreme: { label: "Hostile", comment: "Reacted to pressure with severe hostility or abuse that disrupted the team." },
     },
   },
   fairPlay: {
@@ -53,6 +63,8 @@ const qualities = {
       positive: { label: "Fair", comment: "Played fairly and showed good sportsmanship." },
       neutral: { label: "Unremarkable", comment: "Showed neither notably positive nor negative sportsmanship." },
       negative: { label: "Poor sportsmanship", comment: "Showed poor sportsmanship when situations did not go their way." },
+      zero: { label: "Absent", comment: "Showed no recognisable signs of fair play or sportsmanship." },
+      extreme: { label: "Severe misconduct", comment: "Displayed severe unsporting conduct that substantially harmed the match." },
     },
   },
   helpfulness: {
@@ -62,6 +74,8 @@ const qualities = {
       positive: { label: "Helpful", comment: "Was helpful and encouraging to other players." },
       neutral: { label: "Limited", comment: "Offered little direct help but did not obstruct others." },
       negative: { label: "Unhelpful", comment: "Was unhelpful when teammates reasonably needed assistance." },
+      zero: { label: "No help", comment: "Provided no help or encouragement to other players." },
+      extreme: { label: "Obstructive", comment: "Actively obstructed or attacked teammates instead of helping them." },
     },
   },
   respect: {
@@ -71,6 +85,8 @@ const qualities = {
       positive: { label: "Respectful", comment: "Communicated respectfully, even in difficult moments." },
       neutral: { label: "Neutral", comment: "Communication was neutral, with no notable positive or negative conduct." },
       negative: { label: "Disrespectful", comment: "Communicated disrespectfully during the match." },
+      zero: { label: "Absent", comment: "Showed no recognisable respect toward other players during the match." },
+      extreme: { label: "Abusive", comment: "Used serious insults or abusive conduct toward other players." },
     },
   },
   teamPlay: {
@@ -80,6 +96,8 @@ const qualities = {
       positive: { label: "Team player", comment: "Put the group ahead of personal statistics and showed genuine team spirit." },
       neutral: { label: "Occasional", comment: "Cooperated with the team at times but often played independently." },
       negative: { label: "Plays alone", comment: "Repeatedly played separately from the team and rarely coordinated with others." },
+      zero: { label: "No team play", comment: "Made no observable effort to play as part of the team." },
+      extreme: { label: "Disruptive", comment: "Behaved in ways that severely disrupted the team's ability to play together." },
     },
   },
   communication: {
@@ -89,6 +107,8 @@ const qualities = {
       positive: { label: "Clear", comment: "Shared clear, useful information without flooding communications." },
       neutral: { label: "Limited", comment: "Communication was limited but generally understandable." },
       negative: { label: "Poor", comment: "Important information was often missing, unclear or communicated too late." },
+      zero: { label: "None", comment: "Provided no communication to the team during the observed match." },
+      extreme: { label: "Abusive", comment: "Used communications for insults, harassment or disruption that seriously affected the team." },
     },
   },
   calls: {
@@ -98,6 +118,8 @@ const qualities = {
       positive: { label: "Useful", comment: "Made timely calls that helped the team make decisions." },
       neutral: { label: "Mixed", comment: "Made calls of mixed usefulness and accuracy." },
       negative: { label: "Misleading", comment: "Repeatedly made calls that were unclear, contradictory or unsupported." },
+      zero: { label: "No calls", comment: "Made no tactical calls during the observed match." },
+      extreme: { label: "Severely disruptive", comment: "Repeated calls seriously disrupted coordination and repeatedly harmed team decisions." },
     },
   },
   support: {
@@ -107,6 +129,8 @@ const qualities = {
       positive: { label: "Supportive", comment: "Supported teammates well with trades, positioning and cover." },
       neutral: { label: "Occasional", comment: "Provided support in some situations but was often too distant or late." },
       negative: { label: "No support", comment: "Rarely supported teammates despite having opportunities to do so." },
+      zero: { label: "Absent", comment: "Provided no observable support through trades, cover or positioning." },
+      extreme: { label: "Obstructive", comment: "Repeatedly obstructed teammates or left them exposed in ways that severely harmed the team." },
     },
   },
   utility: {
@@ -116,6 +140,8 @@ const qualities = {
       positive: { label: "Thoughtful", comment: "Used utility thoughtfully to create opportunities for the team." },
       neutral: { label: "Basic", comment: "Used utility at a basic level with limited team impact." },
       negative: { label: "Ineffective", comment: "Utility was repeatedly mistimed, wasted or disruptive to teammates." },
+      zero: { label: "None", comment: "Made no observable use of utility to support the team." },
+      extreme: { label: "Team-harming", comment: "Utility use repeatedly and severely harmed teammates or prevented effective team play." },
     },
   },
   economy: {
@@ -125,6 +151,8 @@ const qualities = {
       positive: { label: "Shares", comment: "Shared weapons and helped manage the team's economy." },
       neutral: { label: "Adequate", comment: "Managed purchases adequately without notably helping or harming the team economy." },
       negative: { label: "Selfish", comment: "Managed money and equipment without considering the team's economy." },
+      zero: { label: "No contribution", comment: "Made no observable contribution to managing or sharing the team economy." },
+      extreme: { label: "Severely selfish", comment: "Repeated economic choices seriously damaged the team's ability to buy and compete together." },
     },
   },
   objective: {
@@ -134,6 +162,8 @@ const qualities = {
       positive: { label: "Focused", comment: "Stayed focused on the objective and what the team needed." },
       neutral: { label: "Inconsistent", comment: "Considered the objective in some moments but overlooked it in others." },
       negative: { label: "Ignores it", comment: "Frequently ignored the objective and the team's immediate needs." },
+      zero: { label: "Absent", comment: "Showed no observable focus on the objective during the match." },
+      extreme: { label: "Team-harming", comment: "Repeatedly acted against the objective in ways that severely harmed the team's chances." },
     },
   },
   leadership: {
@@ -143,6 +173,8 @@ const qualities = {
       positive: { label: "Constructive", comment: "Helped organise the team in a calm and constructive way." },
       neutral: { label: "No influence", comment: "Did not take a notable leadership role during the match." },
       negative: { label: "Controlling", comment: "Tried to direct the team in a controlling or confrontational way." },
+      zero: { label: "Absent", comment: "Provided no leadership or organisational contribution during the match." },
+      extreme: { label: "Abusive", comment: "Used insults, pressure or intimidation while trying to control the team." },
     },
   },
   adaptability: {
@@ -152,6 +184,8 @@ const qualities = {
       positive: { label: "Adaptable", comment: "Adapted well to teammates and changing situations." },
       neutral: { label: "Somewhat", comment: "Made some adjustments but generally kept the same approach." },
       negative: { label: "Rigid", comment: "Repeatedly refused to adapt when the situation or team needed a change." },
+      zero: { label: "Absent", comment: "Showed no observable adaptation to changing situations or team needs." },
+      extreme: { label: "Severely disruptive", comment: "The refusal to adapt repeatedly and severely disrupted the team's play." },
     },
   },
   opponentConduct: {
@@ -161,6 +195,8 @@ const qualities = {
       positive: { label: "Respectful", comment: "Was a respectful opponent and helped make the match enjoyable." },
       neutral: { label: "Neutral", comment: "Had no notable positive or negative interaction with opponents." },
       negative: { label: "Hostile", comment: "Behaved disrespectfully toward opponents during the match." },
+      zero: { label: "Absent", comment: "Showed no recognisable respect toward opponents during the match." },
+      extreme: { label: "Abusive", comment: "Used serious insults, harassment or abusive conduct toward opponents." },
     },
   },
 };
@@ -209,14 +245,15 @@ function renderQualities() {
     controls.setAttribute("role", "group");
     controls.setAttribute("aria-label", `Rate ${quality.name}`);
 
-    ["positive", "neutral", "negative"].forEach((rating) => {
+    ["positive", "neutral", "negative", "zero", "extreme"].forEach((rating) => {
       const option = quality.ratings[rating];
       const button = document.createElement("button");
       button.type = "button";
       button.className = `rating-button ${rating}`;
       button.dataset.rating = rating;
       button.setAttribute("aria-pressed", "false");
-      button.innerHTML = `<strong>${rating === "positive" ? "+" : rating === "neutral" ? "=" : "−"}</strong><span>${option.label}</span>`;
+      const symbol = { positive: "+", neutral: "=", negative: "−", zero: "0", extreme: "−−" }[rating];
+      button.innerHTML = `<strong>${symbol}</strong><span>${option.label}</span>`;
       button.addEventListener("click", () => setRating(qualityId, rating));
       controls.appendChild(button);
     });
@@ -242,15 +279,19 @@ function composeComment() {
   const counts = selected.reduce((result, { rating }) => {
     result[rating] += 1;
     return result;
-  }, { positive: 0, neutral: 0, negative: 0 });
+  }, { positive: 0, neutral: 0, negative: 0, zero: 0, extreme: 0 });
 
   let ending = "This was a mixed experience based on the qualities observed.";
-  if (counts.positive > 0 && counts.negative === 0 && counts.neutral === 0) {
+  if (counts.positive > 0 && counts.negative === 0 && counts.neutral === 0 && counts.zero === 0 && counts.extreme === 0) {
     ending = "GG — thanks for making the match better for everyone.";
-  } else if (counts.negative > 0 && counts.positive === 0 && counts.neutral === 0) {
+  } else if (counts.negative > 0 && counts.positive === 0 && counts.neutral === 0 && counts.zero === 0 && counts.extreme === 0) {
     ending = "I hope future matches are approached with more cooperation and respect.";
-  } else if (counts.neutral > 0 && counts.positive === 0 && counts.negative === 0) {
+  } else if (counts.neutral > 0 && counts.positive === 0 && counts.negative === 0 && counts.zero === 0 && counts.extreme === 0) {
     ending = "Overall, the match experience was fairly neutral.";
+  } else if (counts.zero > 0 && counts.positive === 0 && counts.neutral === 0 && counts.negative === 0 && counts.extreme === 0) {
+    ending = "These qualities were entirely absent in the observed match.";
+  } else if (counts.extreme > 0 && counts.positive === 0 && counts.neutral === 0 && counts.negative === 0 && counts.zero === 0) {
+    ending = "This conduct had a severely negative effect on the match. Serious abuse or disruption should also be reported privately through Steam.";
   }
 
   const promotion = includePromotion.checked
@@ -354,8 +395,8 @@ function openInfo(qualityId) {
   infoKicker.textContent = "QUALITY RATING";
   infoTitle.textContent = quality.name;
   infoDefinition.textContent = quality.definition;
-  infoExample.textContent = ["positive", "neutral", "negative"]
-    .map((rating) => `${rating === "positive" ? "+" : rating === "neutral" ? "=" : "−"} ${quality.ratings[rating].label}`)
+  infoExample.textContent = ["positive", "neutral", "negative", "zero", "extreme"]
+    .map((rating) => `${{ positive: "+", neutral: "=", negative: "−", zero: "0", extreme: "−−" }[rating]} ${quality.ratings[rating].label}`)
     .join(" · ");
   infoDialog.showModal();
 }
