@@ -256,7 +256,7 @@ function renderQualities() {
     controls.setAttribute("role", "group");
     controls.setAttribute("aria-label", `Rate ${quality.name}`);
 
-    ["positive", "neutral", "negative", "zero", "extreme"].forEach((rating) => {
+    ["positive", "neutral", "zero", "negative", "extreme"].forEach((rating) => {
       const option = quality.ratings[rating];
       const button = document.createElement("button");
       button.type = "button";
@@ -406,7 +406,7 @@ function openInfo(qualityId) {
   infoKicker.textContent = "QUALITY RATING";
   infoTitle.textContent = quality.name;
   infoDefinition.textContent = quality.definition;
-  infoExample.textContent = ["positive", "neutral", "negative", "zero", "extreme"]
+  infoExample.textContent = ["positive", "neutral", "zero", "negative", "extreme"]
     .map((rating) => `${{ positive: "+", neutral: "=", negative: "−", zero: "0", extreme: "−−" }[rating]} ${quality.ratings[rating].label}`)
     .join(" · ");
   infoDialog.showModal();
