@@ -484,7 +484,7 @@ function updateOutput() {
   reportText.value = composePrivateReport(selected);
 
   commentText.value = hasSelection
-    ? `${selected.map((category) => templates[category].comment).join(" ")} Evidence has been reported for review. OPN documents suspected cheating, farming bots and abusive behaviour without encouraging harassment or mass reporting. ${groupUrl}`
+    ? `${selected.map((category) => templates[category].comment).join(" ")} Evidence has been reported for review. OPN documents suspected cheating, farming bots and abusive behaviour without encouraging harassment or mass reporting.\n\nJoin OpenPlay Network — a community for fair play and better matches: ${groupUrl}`
     : "";
 
   reportText.classList.toggle("empty", !hasSelection);
