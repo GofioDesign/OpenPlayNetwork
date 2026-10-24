@@ -58,18 +58,19 @@
           </div>
 
           <div class="filter-block">
-            <span class="filter-label">Type of contribution</span>
+            <span class="filter-label">Family</span>
             <div class="filter-bar" role="group" aria-label="Filter player qualities">
               <button class="filter-chip active" type="button" data-filter="all" aria-pressed="true">All</button>
               <button class="filter-chip" type="button" data-filter="individual" aria-pressed="false">Individual</button>
-              <button class="filter-chip" type="button" data-filter="teamwork" aria-pressed="false">Teamwork</button>
+              <button class="filter-chip" type="button" data-filter="team" aria-pressed="false">Team</button>
+              <button class="filter-chip" type="button" data-filter="match" aria-pressed="false">Match</button>
               <button class="filter-chip selected-filter" type="button" data-filter="selected" aria-pressed="false">
                 Selected <span id="selectedCount">0</span>
               </button>
             </div>
           </div>
 
-          <div class="category-grid" id="qualityGrid" role="group" aria-label="Player feedback categories"></div>
+          <div class="quality-families" id="qualityGrid" aria-label="Player feedback categories"></div>
 
           <button class="clear-button" id="clearSelection" type="button" disabled>
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
@@ -146,6 +147,6 @@
       <span>Feedback copied</span>
     </div>
 
-    <script src="kudos.js?v=20261025.4"></script>
+    <script src="kudos.js?v=20261025.5"></script>
   </body>
 </html>
