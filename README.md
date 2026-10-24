@@ -8,7 +8,7 @@ Selecting **Farming bot** reveals a daily, browser-local queue for Steam profile
 
 The sharing section provides prepared Steam-comment and Discord messages, direct links for supported services, link copying, and the device's native share menu where available.
 
-`/kudos/` contains **OPN Player Kudos**, a second additive generator for creating positive Steam profile comments from individual and teamwork qualities, with an optional invitation to the OpenPlay Network Steam group.
+`/kudos/` contains **OPN Player Feedback**, an additive generator for creating positive, negative or balanced Steam profile comments from personally observed individual and teamwork behaviours, with an optional invitation to the OpenPlay Network Steam group.
 
 ## Use locally
 
