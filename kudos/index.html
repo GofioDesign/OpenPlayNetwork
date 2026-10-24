@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Create a fair Steam profile comment from positive or negative behaviours you personally observed." />
+    <meta name="description" content="Rate observed player qualities as positive, neutral or negative and create a fair Steam profile comment." />
     <meta name="theme-color" content="#030711" />
     <meta property="og:title" content="OPN Player Feedback" />
-    <meta property="og:description" content="Build a fair Steam profile comment from positive and negative match observations." />
+    <meta property="og:description" content="Rate each observed player quality as positive, neutral or negative." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://gofiodesign.github.io/OpenPlayNetwork/kudos/" />
     <meta property="og:image" content="https://gofiodesign.github.io/OpenPlayNetwork/assets/opn-logo.png" />
@@ -43,7 +43,7 @@
         <p class="eyebrow"><span></span> FAIR, OBSERVED FEEDBACK</p>
         <h1 id="page-title">Observe. Evaluate. Share.</h1>
         <p>
-          Select the positive and negative behaviours you genuinely observed. Player Feedback combines them into a balanced Steam profile comment ready to copy.
+          Rate each quality as positive, neutral or negative. Player Feedback combines only your selected observations into a Steam profile comment ready to copy.
         </p>
       </section>
 
@@ -53,16 +53,7 @@
             <span class="step">01</span>
             <div>
               <h2>Player evaluation</h2>
-              <p>Select only the behaviours you personally observed.</p>
-            </div>
-          </div>
-
-          <div class="filter-block tone-filter-block">
-            <span class="filter-label">Evaluation</span>
-            <div class="filter-bar" role="group" aria-label="Choose positive or negative evaluation">
-              <button class="tone-chip positive active" type="button" data-tone-filter="positive" aria-pressed="true">Positive</button>
-              <button class="tone-chip negative" type="button" data-tone-filter="negative" aria-pressed="false">Negative</button>
-              <button class="tone-chip" type="button" data-tone-filter="both" aria-pressed="false">Both</button>
+              <p>Choose +, = or − independently for every quality you observed.</p>
             </div>
           </div>
 
@@ -78,111 +69,7 @@
             </div>
           </div>
 
-          <div class="category-grid" role="group" aria-label="Player feedback categories">
-            <button class="category" type="button" aria-pressed="false" data-quality="positiveAttitude" data-area="individual" data-tone="positive">
-              <span class="category-icon">POS</span><span>Positive attitude</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="skilledPlay" data-area="individual" data-tone="positive">
-              <span class="category-icon">SKL</span><span>Skilled play</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="smartDecisions" data-area="individual" data-tone="positive">
-              <span class="category-icon">IQ</span><span>Smart decisions</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="consistent" data-area="individual" data-tone="positive">
-              <span class="category-icon">CON</span><span>Consistent</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="calmUnderPressure" data-area="individual" data-tone="positive">
-              <span class="category-icon">CLM</span><span>Calm under pressure</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="fairPlay" data-area="individual" data-tone="positive">
-              <span class="category-icon">FAIR</span><span>Fair play</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="helpful" data-area="individual" data-tone="positive">
-              <span class="category-icon">HELP</span><span>Helpful</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="respectful" data-area="individual" data-tone="positive">
-              <span class="category-icon">RES</span><span>Respectful</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="teamPlayer" data-area="teamwork" data-tone="positive">
-              <span class="category-icon">TEAM</span><span>Team player</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="clearCommunication" data-area="teamwork" data-tone="positive">
-              <span class="category-icon">COM</span><span>Clear communication</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="usefulCalls" data-area="teamwork" data-tone="positive">
-              <span class="category-icon">CALL</span><span>Useful calls</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="supportivePlay" data-area="teamwork" data-tone="positive">
-              <span class="category-icon">SUP</span><span>Supportive play</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="utilityUse" data-area="teamwork" data-tone="positive">
-              <span class="category-icon">UTIL</span><span>Thoughtful utility</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="economySharing" data-area="teamwork" data-tone="positive">
-              <span class="category-icon">ECO</span><span>Shared economy</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="objectiveFocused" data-area="teamwork" data-tone="positive">
-              <span class="category-icon">OBJ</span><span>Objective focused</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="positiveLeadership" data-area="teamwork" data-tone="positive">
-              <span class="category-icon">LEAD</span><span>Positive leadership</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="adaptability" data-area="teamwork" data-tone="positive">
-              <span class="category-icon">ADP</span><span>Adaptable</span>
-            </button>
-            <button class="category" type="button" aria-pressed="false" data-quality="respectfulOpponent" data-area="teamwork" data-tone="positive">
-              <span class="category-icon">GG</span><span>Respectful opponent</span>
-            </button>
-
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="negativeAttitude" data-area="individual" data-tone="negative">
-              <span class="category-icon">NEG</span><span>Negative attitude</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="poorSportsmanship" data-area="individual" data-tone="negative">
-              <span class="category-icon">BAD</span><span>Poor sportsmanship</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="givesUp" data-area="individual" data-tone="negative">
-              <span class="category-icon">AFK</span><span>Gives up / AFK</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="blamesOthers" data-area="individual" data-tone="negative">
-              <span class="category-icon">BLM</span><span>Blames others</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="disrespectful" data-area="individual" data-tone="negative">
-              <span class="category-icon">DIS</span><span>Disrespectful</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="selfishPlay" data-area="individual" data-tone="negative">
-              <span class="category-icon">SELF</span><span>Selfish play</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="ignoresObjective" data-area="individual" data-tone="negative">
-              <span class="category-icon">NOOBJ</span><span>Ignores objective</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="refusesToAdapt" data-area="individual" data-tone="negative">
-              <span class="category-icon">FIX</span><span>Refuses to adapt</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="poorCommunication" data-area="teamwork" data-tone="negative">
-              <span class="category-icon">NOCOM</span><span>Poor communication</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="floodsComms" data-area="teamwork" data-tone="negative">
-              <span class="category-icon">SPAM</span><span>Floods communications</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="misleadingCalls" data-area="teamwork" data-tone="negative">
-              <span class="category-icon">CALL?</span><span>Misleading calls</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="noTeamPlay" data-area="teamwork" data-tone="negative">
-              <span class="category-icon">SOLO</span><span>No team play</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="refusesSupport" data-area="teamwork" data-tone="negative">
-              <span class="category-icon">NOSUP</span><span>Does not support</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="economySelfish" data-area="teamwork" data-tone="negative">
-              <span class="category-icon">$</span><span>Selfish economy</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="controllingLeadership" data-area="teamwork" data-tone="negative">
-              <span class="category-icon">CTRL</span><span>Controlling leadership</span>
-            </button>
-            <button class="category negative-category" type="button" aria-pressed="false" data-quality="disruptivePlay" data-area="teamwork" data-tone="negative">
-              <span class="category-icon">GRF</span><span>Disruptive play</span>
-            </button>
-          </div>
+          <div class="category-grid" id="qualityGrid" role="group" aria-label="Player feedback categories"></div>
 
           <button class="clear-button" id="clearSelection" type="button" disabled>
             <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" /></svg>
@@ -210,7 +97,7 @@
                 <span>Copy</span>
               </button>
             </div>
-            <textarea id="kudosText" readonly aria-label="Generated Steam profile feedback" placeholder="Select one or more observations…"></textarea>
+            <textarea id="kudosText" readonly aria-label="Generated Steam profile feedback" placeholder="Rate one or more qualities…"></textarea>
           </article>
 
           <label class="promotion-option" for="includePromotion">
@@ -242,7 +129,7 @@
           <p id="qualityInfoDefinition"></p>
         </div>
         <div class="info-dialog-section">
-          <h3>When to choose it</h3>
+          <h3>Rating guide</h3>
           <p id="qualityInfoExample"></p>
         </div>
         <p class="info-dialog-caution">Choose only behaviours you personally observed during the match. Describe conduct, not a person's worth.</p>
@@ -259,6 +146,6 @@
       <span>Feedback copied</span>
     </div>
 
-    <script src="kudos.js?v=20261024.2"></script>
+    <script src="kudos.js?v=20261025.1"></script>
   </body>
 </html>
