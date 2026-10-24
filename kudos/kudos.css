@@ -13,6 +13,29 @@
   background: rgba(53, 229, 173, 0.1);
   color: var(--kudos);
 }
+.quality-families { display: grid; gap: 22px; }
+.quality-family { display: grid; gap: 10px; }
+.quality-family[hidden] { display: none; }
+.family-heading {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(143, 164, 191, 0.16);
+}
+.family-heading h3 {
+  margin: 0;
+  color: #d4e1ef;
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.family-heading p {
+  margin: 0;
+  color: #667d97;
+  font-size: 0.6rem;
+  line-height: 1.35;
+}
 .rating-card {
   padding: 14px;
   border: 1px solid var(--line);
@@ -147,6 +170,7 @@
 }
 
 @media (max-width: 560px) {
+  .family-heading { display: grid; gap: 3px; }
   .kudos-page .category-grid { grid-template-columns: 1fr; }
   .kudos-copy-card textarea { height: 245px; }
 }
