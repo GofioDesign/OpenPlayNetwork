@@ -5,6 +5,7 @@ const qualities = {
     name: "Attitude", icon: "ATT", area: "individual",
     definition: "The player's general disposition and its effect on the match.",
     ratings: {
+      top: { label: "Outstanding", comment: "Brought an outstanding attitude that lifted the team throughout the match." },
       positive: { label: "Positive", comment: "Maintained a positive, constructive attitude throughout the match." },
       neutral: { label: "Neutral", comment: "Had a neutral attitude that did not noticeably affect the match." },
       negative: { label: "Negative", comment: "Maintained a negative attitude that made the match harder for others." },
@@ -16,6 +17,7 @@ const qualities = {
     name: "Skilled play", icon: "SKL", area: "individual",
     definition: "The level of mechanical execution visibly demonstrated during the match.",
     ratings: {
+      top: { label: "Exceptional", comment: "Displayed exceptional mechanics and individual skill throughout the match." },
       positive: { label: "Highly skilled", comment: "Showed excellent individual skill and mechanics." },
       neutral: { label: "Regular", comment: "Showed an ordinary level of mechanical skill for the match." },
       negative: { label: "Lacks skill", comment: "Struggled with the basic mechanics needed in several situations." },
@@ -27,6 +29,7 @@ const qualities = {
     name: "Decision-making", icon: "IQ", area: "individual",
     definition: "How well the player read situations, risks and available information.",
     ratings: {
+      top: { label: "Exceptional", comment: "Showed exceptional game sense and repeatedly made match-defining decisions." },
       positive: { label: "Smart", comment: "Made smart decisions and showed strong game sense." },
       neutral: { label: "Mixed", comment: "Made a mixture of effective and questionable decisions." },
       negative: { label: "Poor", comment: "Repeatedly made decisions that put the player or team at a disadvantage." },
@@ -38,6 +41,7 @@ const qualities = {
     name: "Consistency", icon: "CON", area: "individual",
     definition: "How reliably the player maintained their performance and role across the match.",
     ratings: {
+      top: { label: "Outstanding", comment: "Delivered an outstandingly consistent performance from beginning to end." },
       positive: { label: "Consistent", comment: "Played consistently and could be relied on round after round." },
       neutral: { label: "Uneven", comment: "Performance varied between effective and ineffective moments." },
       negative: { label: "Inconsistent", comment: "Performance was repeatedly inconsistent across the match." },
@@ -49,6 +53,7 @@ const qualities = {
     name: "Composure", icon: "CLM", area: "individual",
     definition: "The player's response to pressure, setbacks and tense situations.",
     ratings: {
+      top: { label: "Exceptional calm", comment: "Showed exceptional composure and effectiveness in the most pressured moments." },
       positive: { label: "Calm", comment: "Stayed calm and effective under pressure." },
       neutral: { label: "Variable", comment: "Handled some pressured situations well but struggled in others." },
       negative: { label: "Loses composure", comment: "Frequently lost composure when the match became difficult." },
@@ -60,6 +65,7 @@ const qualities = {
     name: "Fair play", icon: "FAIR", area: "match",
     definition: "Respect for the rules, the match and the people taking part.",
     ratings: {
+      top: { label: "Exemplary", comment: "Set an exemplary standard of fair play and sportsmanship for the whole match." },
       positive: { label: "Fair", comment: "Played fairly and showed good sportsmanship." },
       neutral: { label: "Unremarkable", comment: "Showed neither notably positive nor negative sportsmanship." },
       negative: { label: "Poor sportsmanship", comment: "Showed poor sportsmanship when situations did not go their way." },
@@ -71,6 +77,7 @@ const qualities = {
     name: "Helpfulness", icon: "HELP", area: "team",
     definition: "Whether the player helped others understand, improve or recover during the match.",
     ratings: {
+      top: { label: "Outstanding", comment: "Went far beyond expectations to help, encourage and include other players." },
       positive: { label: "Helpful", comment: "Was helpful and encouraging to other players." },
       neutral: { label: "Limited", comment: "Offered little direct help but did not obstruct others." },
       negative: { label: "Unhelpful", comment: "Was unhelpful when teammates reasonably needed assistance." },
@@ -82,6 +89,7 @@ const qualities = {
     name: "Respect toward teammates", icon: "RES", area: "team",
     definition: "How the player treated teammates in voice, text and conduct.",
     ratings: {
+      top: { label: "Exemplary", comment: "Set an exemplary standard of respect toward teammates throughout the match." },
       positive: { label: "Respectful", comment: "Communicated respectfully with teammates, even in difficult moments." },
       neutral: { label: "Neutral", comment: "Communication was neutral, with no notable positive or negative conduct." },
       negative: { label: "Disrespectful", comment: "Communicated disrespectfully with teammates during the match." },
@@ -93,6 +101,7 @@ const qualities = {
     name: "Participation / AFK", icon: "AFK", area: "individual",
     definition: "How consistently the player remained present and actively participated in the match.",
     ratings: {
+      top: { label: "Outstanding", comment: "Showed outstanding commitment, presence and active participation throughout the match." },
       positive: { label: "Fully active", comment: "Remained present and actively participated throughout the match." },
       neutral: { label: "Brief absence", comment: "Had brief periods of inactivity without a major effect on the team." },
       negative: { label: "Frequently AFK", comment: "Was repeatedly AFK or inactive during important parts of the match." },
@@ -104,6 +113,7 @@ const qualities = {
     name: "Team play", icon: "TEAM", area: "team",
     definition: "Whether the player prioritised coordination and the shared result over personal statistics.",
     ratings: {
+      top: { label: "Exceptional teammate", comment: "Was an exceptional teammate who consistently put the group first." },
       positive: { label: "Team player", comment: "Put the group ahead of personal statistics and showed genuine team spirit." },
       neutral: { label: "Occasional", comment: "Cooperated with the team at times but often played independently." },
       negative: { label: "Plays alone", comment: "Repeatedly played separately from the team and rarely coordinated with others." },
@@ -115,6 +125,7 @@ const qualities = {
     name: "Communication", icon: "COM", area: "team",
     definition: "The clarity, relevance and timing of information shared with the team.",
     ratings: {
+      top: { label: "Exceptional", comment: "Communicated exceptionally well, with precise information and excellent timing." },
       positive: { label: "Clear", comment: "Shared clear, useful information without flooding communications." },
       neutral: { label: "Limited", comment: "Communication was limited but generally understandable." },
       negative: { label: "Poor", comment: "Important information was often missing, unclear or communicated too late." },
@@ -126,6 +137,7 @@ const qualities = {
     name: "Tactical calls", icon: "CALL", area: "team",
     definition: "How useful the player's suggestions and tactical calls were to collective decisions.",
     ratings: {
+      top: { label: "Excellent", comment: "Made excellent tactical calls that repeatedly improved the team's decisions." },
       positive: { label: "Useful", comment: "Made timely calls that helped the team make decisions." },
       neutral: { label: "Mixed", comment: "Made calls of mixed usefulness and accuracy." },
       negative: { label: "Misleading", comment: "Repeatedly made calls that were unclear, contradictory or unsupported." },
@@ -137,6 +149,7 @@ const qualities = {
     name: "Supportive play", icon: "SUP", area: "team",
     definition: "Support provided through trades, cover, spacing and positioning.",
     ratings: {
+      top: { label: "Exceptional", comment: "Provided exceptional support through excellent trades, cover and positioning." },
       positive: { label: "Supportive", comment: "Supported teammates well with trades, positioning and cover." },
       neutral: { label: "Occasional", comment: "Provided support in some situations but was often too distant or late." },
       negative: { label: "No support", comment: "Rarely supported teammates despite having opportunities to do so." },
@@ -148,6 +161,7 @@ const qualities = {
     name: "Utility use", icon: "UTIL", area: "team",
     definition: "How purposefully support resources or grenades were used for the team.",
     ratings: {
+      top: { label: "Exceptional", comment: "Used utility exceptionally well to create decisive opportunities for the team." },
       positive: { label: "Thoughtful", comment: "Used utility thoughtfully to create opportunities for the team." },
       neutral: { label: "Basic", comment: "Used utility at a basic level with limited team impact." },
       negative: { label: "Ineffective", comment: "Utility was repeatedly mistimed, wasted or disruptive to teammates." },
@@ -159,6 +173,7 @@ const qualities = {
     name: "Team economy", icon: "ECO", area: "team",
     definition: "How the player managed purchases and equipment in relation to team needs.",
     ratings: {
+      top: { label: "Excellent", comment: "Managed and shared equipment exceptionally well for the benefit of the whole team." },
       positive: { label: "Shares", comment: "Shared weapons and helped manage the team's economy." },
       neutral: { label: "Adequate", comment: "Managed purchases adequately without notably helping or harming the team economy." },
       negative: { label: "Selfish", comment: "Managed money and equipment without considering the team's economy." },
@@ -170,6 +185,7 @@ const qualities = {
     name: "Objective focus", icon: "OBJ", area: "team",
     definition: "How consistently decisions served the actual win condition.",
     ratings: {
+      top: { label: "Exceptional", comment: "Maintained exceptional objective awareness and repeatedly made decisive team-first plays." },
       positive: { label: "Focused", comment: "Stayed focused on the objective and what the team needed." },
       neutral: { label: "Inconsistent", comment: "Considered the objective in some moments but overlooked it in others." },
       negative: { label: "Ignores it", comment: "Frequently ignored the objective and the team's immediate needs." },
@@ -181,6 +197,7 @@ const qualities = {
     name: "Leadership", icon: "LEAD", area: "team",
     definition: "How the player influenced coordination, participation and decision-making.",
     ratings: {
+      top: { label: "Outstanding", comment: "Provided outstanding leadership that united and improved the whole team." },
       positive: { label: "Constructive", comment: "Helped organise the team in a calm and constructive way." },
       neutral: { label: "No influence", comment: "Did not take a notable leadership role during the match." },
       negative: { label: "Controlling", comment: "Tried to direct the team in a controlling or confrontational way." },
@@ -192,6 +209,7 @@ const qualities = {
     name: "Adaptability", icon: "ADP", area: "team",
     definition: "How well the player adjusted role, position or approach as circumstances changed.",
     ratings: {
+      top: { label: "Exceptional", comment: "Adapted exceptionally well to every change in the match and the team's needs." },
       positive: { label: "Adaptable", comment: "Adapted well to teammates and changing situations." },
       neutral: { label: "Somewhat", comment: "Made some adjustments but generally kept the same approach." },
       negative: { label: "Rigid", comment: "Repeatedly refused to adapt when the situation or team needed a change." },
@@ -203,6 +221,7 @@ const qualities = {
     name: "Conduct toward opponents", icon: "GG", area: "match",
     definition: "The respect shown to opponents in competition, victory and defeat.",
     ratings: {
+      top: { label: "Exemplary", comment: "Set an exemplary standard of respect toward opponents in competition, victory and defeat." },
       positive: { label: "Respectful", comment: "Was a respectful opponent and helped make the match enjoyable." },
       neutral: { label: "Neutral", comment: "Had no notable positive or negative interaction with opponents." },
       negative: { label: "Hostile", comment: "Behaved disrespectfully toward opponents during the match." },
@@ -278,14 +297,14 @@ function renderQualities() {
     controls.setAttribute("role", "group");
     controls.setAttribute("aria-label", `Rate ${quality.name}`);
 
-    ["positive", "neutral", "zero", "negative", "extreme"].forEach((rating) => {
+    ["top", "positive", "neutral", "zero", "negative", "extreme"].forEach((rating) => {
       const option = quality.ratings[rating];
       const button = document.createElement("button");
       button.type = "button";
       button.className = `rating-button ${rating}`;
       button.dataset.rating = rating;
       button.setAttribute("aria-pressed", "false");
-      const symbol = { positive: "+", neutral: "=", negative: "−", zero: "0", extreme: "−−" }[rating];
+      const symbol = { top: "++", positive: "+", neutral: "=", negative: "−", zero: "0", extreme: "−−" }[rating];
       button.innerHTML = `<strong>${symbol}</strong><span>${option.label}</span>`;
       button.addEventListener("click", () => setRating(qualityId, rating));
       controls.appendChild(button);
@@ -312,18 +331,20 @@ function composeComment() {
   const counts = selected.reduce((result, { rating }) => {
     result[rating] += 1;
     return result;
-  }, { positive: 0, neutral: 0, negative: 0, zero: 0, extreme: 0 });
+  }, { top: 0, positive: 0, neutral: 0, negative: 0, zero: 0, extreme: 0 });
 
   let ending = "This was a mixed experience based on the qualities observed.";
-  if (counts.positive > 0 && counts.negative === 0 && counts.neutral === 0 && counts.zero === 0 && counts.extreme === 0) {
+  if (counts.top > 0 && counts.positive === 0 && counts.negative === 0 && counts.neutral === 0 && counts.zero === 0 && counts.extreme === 0) {
+    ending = "An exceptional player who made the match significantly better for everyone. GG!";
+  } else if ((counts.top > 0 || counts.positive > 0) && counts.negative === 0 && counts.neutral === 0 && counts.zero === 0 && counts.extreme === 0) {
     ending = "GG — thanks for making the match better for everyone.";
-  } else if (counts.negative > 0 && counts.positive === 0 && counts.neutral === 0 && counts.zero === 0 && counts.extreme === 0) {
+  } else if (counts.negative > 0 && counts.top === 0 && counts.positive === 0 && counts.neutral === 0 && counts.zero === 0 && counts.extreme === 0) {
     ending = "I hope future matches are approached with more cooperation and respect.";
-  } else if (counts.neutral > 0 && counts.positive === 0 && counts.negative === 0 && counts.zero === 0 && counts.extreme === 0) {
+  } else if (counts.neutral > 0 && counts.top === 0 && counts.positive === 0 && counts.negative === 0 && counts.zero === 0 && counts.extreme === 0) {
     ending = "Overall, the match experience was fairly neutral.";
-  } else if (counts.zero > 0 && counts.positive === 0 && counts.neutral === 0 && counts.negative === 0 && counts.extreme === 0) {
+  } else if (counts.zero > 0 && counts.top === 0 && counts.positive === 0 && counts.neutral === 0 && counts.negative === 0 && counts.extreme === 0) {
     ending = "These qualities were entirely absent in the observed match.";
-  } else if (counts.extreme > 0 && counts.positive === 0 && counts.neutral === 0 && counts.negative === 0 && counts.zero === 0) {
+  } else if (counts.extreme > 0 && counts.top === 0 && counts.positive === 0 && counts.neutral === 0 && counts.negative === 0 && counts.zero === 0) {
     ending = "This conduct had a severely negative effect on the match. Serious abuse or disruption should also be reported privately through Steam.";
   }
 
@@ -434,8 +455,8 @@ function openInfo(qualityId) {
   infoKicker.textContent = "QUALITY RATING";
   infoTitle.textContent = quality.name;
   infoDefinition.textContent = quality.definition;
-  infoExample.textContent = ["positive", "neutral", "zero", "negative", "extreme"]
-    .map((rating) => `${{ positive: "+", neutral: "=", negative: "−", zero: "0", extreme: "−−" }[rating]} ${quality.ratings[rating].label}`)
+  infoExample.textContent = ["top", "positive", "neutral", "zero", "negative", "extreme"]
+    .map((rating) => `${{ top: "++", positive: "+", neutral: "=", negative: "−", zero: "0", extreme: "−−" }[rating]} ${quality.ratings[rating].label}`)
     .join(" · ");
   infoDialog.showModal();
 }
