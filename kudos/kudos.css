@@ -44,6 +44,10 @@
   transition: 160ms ease;
 }
 .rating-card:hover { border-color: rgba(44, 190, 255, 0.28); }
+.rating-card[data-selected-rating="top"] {
+  border-color: rgba(255, 210, 92, 0.82);
+  box-shadow: inset 0 0 0 1px rgba(255, 210, 92, 0.1), 0 8px 28px rgba(255, 190, 50, 0.06);
+}
 .rating-card[data-selected-rating="positive"] { border-color: rgba(53, 229, 173, 0.5); }
 .rating-card[data-selected-rating="neutral"] { border-color: rgba(155, 140, 255, 0.5); }
 .rating-card[data-selected-rating="negative"] { border-color: rgba(255, 142, 74, 0.58); }
@@ -72,7 +76,7 @@
 .rating-card .category-info-button { top: 0; right: 0; }
 .rating-control {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 5px;
   margin-top: 12px;
 }
@@ -102,6 +106,12 @@
   text-overflow: ellipsis;
 }
 .rating-button:hover { border-color: rgba(255,255,255,0.28); color: var(--text); }
+.rating-button.top.active {
+  border-color: rgba(255, 210, 92, 0.9);
+  background: rgba(255, 190, 50, 0.15);
+  color: #ffdc78;
+  box-shadow: 0 0 16px rgba(255, 190, 50, 0.09);
+}
 .rating-button.positive.active {
   border-color: rgba(53, 229, 173, 0.72);
   background: rgba(53, 229, 173, 0.13);
