@@ -57,7 +57,7 @@ const qualities = {
     },
   },
   fairPlay: {
-    name: "Fair play", icon: "FAIR", area: "individual",
+    name: "Fair play", icon: "FAIR", area: "match",
     definition: "Respect for the rules, the match and the people taking part.",
     ratings: {
       positive: { label: "Fair", comment: "Played fairly and showed good sportsmanship." },
@@ -68,7 +68,7 @@ const qualities = {
     },
   },
   helpfulness: {
-    name: "Helpfulness", icon: "HELP", area: "individual",
+    name: "Helpfulness", icon: "HELP", area: "team",
     definition: "Whether the player helped others understand, improve or recover during the match.",
     ratings: {
       positive: { label: "Helpful", comment: "Was helpful and encouraging to other players." },
@@ -79,14 +79,14 @@ const qualities = {
     },
   },
   respect: {
-    name: "Respect", icon: "RES", area: "individual",
-    definition: "How the player treated teammates and opponents in voice, text and conduct.",
+    name: "Respect toward teammates", icon: "RES", area: "team",
+    definition: "How the player treated teammates in voice, text and conduct.",
     ratings: {
-      positive: { label: "Respectful", comment: "Communicated respectfully, even in difficult moments." },
+      positive: { label: "Respectful", comment: "Communicated respectfully with teammates, even in difficult moments." },
       neutral: { label: "Neutral", comment: "Communication was neutral, with no notable positive or negative conduct." },
-      negative: { label: "Disrespectful", comment: "Communicated disrespectfully during the match." },
-      zero: { label: "Absent", comment: "Showed no recognisable respect toward other players during the match." },
-      extreme: { label: "Abusive", comment: "Used serious insults or abusive conduct toward other players." },
+      negative: { label: "Disrespectful", comment: "Communicated disrespectfully with teammates during the match." },
+      zero: { label: "Absent", comment: "Showed no recognisable respect toward teammates during the match." },
+      extreme: { label: "Abusive", comment: "Used serious insults or abusive conduct toward teammates." },
     },
   },
   participation: {
@@ -101,7 +101,7 @@ const qualities = {
     },
   },
   teamPlay: {
-    name: "Team play", icon: "TEAM", area: "teamwork",
+    name: "Team play", icon: "TEAM", area: "team",
     definition: "Whether the player prioritised coordination and the shared result over personal statistics.",
     ratings: {
       positive: { label: "Team player", comment: "Put the group ahead of personal statistics and showed genuine team spirit." },
@@ -112,7 +112,7 @@ const qualities = {
     },
   },
   communication: {
-    name: "Communication", icon: "COM", area: "teamwork",
+    name: "Communication", icon: "COM", area: "team",
     definition: "The clarity, relevance and timing of information shared with the team.",
     ratings: {
       positive: { label: "Clear", comment: "Shared clear, useful information without flooding communications." },
@@ -123,7 +123,7 @@ const qualities = {
     },
   },
   calls: {
-    name: "Tactical calls", icon: "CALL", area: "teamwork",
+    name: "Tactical calls", icon: "CALL", area: "team",
     definition: "How useful the player's suggestions and tactical calls were to collective decisions.",
     ratings: {
       positive: { label: "Useful", comment: "Made timely calls that helped the team make decisions." },
@@ -134,7 +134,7 @@ const qualities = {
     },
   },
   support: {
-    name: "Supportive play", icon: "SUP", area: "teamwork",
+    name: "Supportive play", icon: "SUP", area: "team",
     definition: "Support provided through trades, cover, spacing and positioning.",
     ratings: {
       positive: { label: "Supportive", comment: "Supported teammates well with trades, positioning and cover." },
@@ -145,7 +145,7 @@ const qualities = {
     },
   },
   utility: {
-    name: "Utility use", icon: "UTIL", area: "teamwork",
+    name: "Utility use", icon: "UTIL", area: "team",
     definition: "How purposefully support resources or grenades were used for the team.",
     ratings: {
       positive: { label: "Thoughtful", comment: "Used utility thoughtfully to create opportunities for the team." },
@@ -156,7 +156,7 @@ const qualities = {
     },
   },
   economy: {
-    name: "Team economy", icon: "ECO", area: "teamwork",
+    name: "Team economy", icon: "ECO", area: "team",
     definition: "How the player managed purchases and equipment in relation to team needs.",
     ratings: {
       positive: { label: "Shares", comment: "Shared weapons and helped manage the team's economy." },
@@ -167,7 +167,7 @@ const qualities = {
     },
   },
   objective: {
-    name: "Objective focus", icon: "OBJ", area: "teamwork",
+    name: "Objective focus", icon: "OBJ", area: "team",
     definition: "How consistently decisions served the actual win condition.",
     ratings: {
       positive: { label: "Focused", comment: "Stayed focused on the objective and what the team needed." },
@@ -178,7 +178,7 @@ const qualities = {
     },
   },
   leadership: {
-    name: "Leadership", icon: "LEAD", area: "teamwork",
+    name: "Leadership", icon: "LEAD", area: "team",
     definition: "How the player influenced coordination, participation and decision-making.",
     ratings: {
       positive: { label: "Constructive", comment: "Helped organise the team in a calm and constructive way." },
@@ -189,7 +189,7 @@ const qualities = {
     },
   },
   adaptability: {
-    name: "Adaptability", icon: "ADP", area: "teamwork",
+    name: "Adaptability", icon: "ADP", area: "team",
     definition: "How well the player adjusted role, position or approach as circumstances changed.",
     ratings: {
       positive: { label: "Adaptable", comment: "Adapted well to teammates and changing situations." },
@@ -200,7 +200,7 @@ const qualities = {
     },
   },
   opponentConduct: {
-    name: "Conduct toward opponents", icon: "GG", area: "teamwork",
+    name: "Conduct toward opponents", icon: "GG", area: "match",
     definition: "The respect shown to opponents in competition, victory and defeat.",
     ratings: {
       positive: { label: "Respectful", comment: "Was a respectful opponent and helped make the match enjoyable." },
@@ -232,6 +232,28 @@ let activeFilter = "all";
 let toastTimer;
 
 function renderQualities() {
+  const familyDetails = {
+    individual: { name: "Individual", description: "Personal performance, attitude and participation" },
+    team: { name: "Team", description: "Contribution to teammates and shared objectives" },
+    match: { name: "Match", description: "Fair play and conduct within the shared match" },
+  };
+  const familyGrids = {};
+
+  Object.entries(familyDetails).forEach(([familyId, family]) => {
+    const section = document.createElement("section");
+    section.className = "quality-family";
+    section.dataset.family = familyId;
+    section.innerHTML = `<div class="family-heading"><h3>${family.name}</h3><p>${family.description}</p></div>`;
+
+    const grid = document.createElement("div");
+    grid.className = "category-grid family-grid";
+    grid.setAttribute("role", "group");
+    grid.setAttribute("aria-label", `${family.name} qualities`);
+    section.appendChild(grid);
+    qualityGrid.appendChild(section);
+    familyGrids[familyId] = grid;
+  });
+
   Object.entries(qualities).forEach(([qualityId, quality]) => {
     const item = document.createElement("article");
     item.className = "category-item rating-card";
@@ -270,7 +292,7 @@ function renderQualities() {
     });
 
     item.appendChild(controls);
-    qualityGrid.appendChild(item);
+    familyGrids[quality.area].appendChild(item);
   });
 }
 
@@ -317,6 +339,12 @@ function applyFilter(filter) {
     const matchesArea = filter === "all" || item.dataset.area === filter;
     const matchesSelection = filter === "selected" && selectedRatings.has(item.dataset.quality);
     item.hidden = filter === "selected" ? !matchesSelection : !matchesArea;
+  });
+
+  document.querySelectorAll(".quality-family").forEach((family) => {
+    const hasVisibleCards = Array.from(family.querySelectorAll(".rating-card"))
+      .some((item) => !item.hidden);
+    family.hidden = !hasVisibleCards;
   });
 
   filterButtons.forEach((button) => {
