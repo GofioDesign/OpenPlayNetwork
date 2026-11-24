@@ -30,6 +30,13 @@ for (const quality of Object.values(qualities)) {
   checkStrings({ name: quality.name, definition: quality.definition, ratings: quality.ratings });
   assert.deepEqual(Object.keys(quality.ratings).sort(), ['extreme', 'negative', 'neutral', 'positive', 'top', 'zero']);
 }
+// Combined Kudos comments use an implicit subject, with no repeated personal label.
+const explicitSubjects = { en: /\bthe player\b/i, es: /\b(?:el|del|al) jugador\b/i, pt: /\b(?:o|do|ao) jogador\b/i, fr: /\b(?:le|du|au) joueur\b/i, de: /\b(?:der|den|dem|des) Spieler(?:s)?\b/, ru: /(?<!\p{L})игрок(?:а|у|ом)?(?!\p{L})/iu, 'zh-CN': /^(?:这位|这名|该)?玩家/ };
+for (const language of languages) {
+  for (const quality of Object.values(qualities)) for (const rating of Object.values(quality.ratings)) {
+    assert(!explicitSubjects[language].test(catalogs[language][rating.comment]), `${language}: repeated explicit subject: ${rating.comment}`);
+  }
+}
 const html = read('index.html');
 assert(html.includes('value="cs2team@valvesoftware.com"'));
 assert(html.includes('value="boosting report"'));
