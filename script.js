@@ -1,8 +1,8 @@
 const groupUrl = "https://steamcommunity.com/groups/OpenPlayNetwork";
-const siteUrl = "https://gofiodesign.github.io/OpenPlayNetwork/";
+const siteUrl = "https://gofiodesign.eu/OpenPlayNetwork/";
 const shareTitle = "OPN Report Kit";
-const steamShareMessage = `Useful community tool: OPN Report Kit helps players create clear, neutral Steam reports by combining only the behaviours they observed. It also includes a daily farming-bot report list. ${siteUrl}`;
-const discordShareMessage = `OPN Report Kit — a free community tool for creating clear, neutral Steam reports. Select and combine observed behaviours, copy the report text, and keep a daily farming-bot list. ${siteUrl}`;
+function steamShareMessage() { return t("Useful community tool: OPN Report Kit helps players create clear, neutral Steam reports by combining only the behaviours they observed. It also includes a daily farming-bot report list.") + ' ' + siteUrl; }
+function discordShareMessage() { return t("OPN Report Kit — a free community tool for creating clear, neutral Steam reports. Select and combine observed behaviours, copy the report text, and keep a daily farming-bot list.") + ' ' + siteUrl; }
 
 const templates = {
   wallhack: {
@@ -208,6 +208,13 @@ const categoryHelp = {
   },
 };
 
+const reportSourceData = structuredClone({ templates, categoryHelp });
+function localizeReportData() {
+  Object.assign(templates, opnI18n.translateData(reportSourceData.templates));
+  Object.assign(categoryHelp, opnI18n.translateData(reportSourceData.categoryHelp));
+}
+localizeReportData();
+
 const reportText = document.querySelector("#reportText");
 const commentText = document.querySelector("#commentText");
 const categoryButtons = document.querySelectorAll(".category");
@@ -224,7 +231,7 @@ categoryButtons.forEach((button) => {
   infoButton.type = "button";
   infoButton.className = "category-info-button";
   infoButton.textContent = "i";
-  infoButton.setAttribute("aria-label", `About ${help.name}`);
+  infoButton.setAttribute("aria-label", t("About {name}", { name: help.name }));
   infoButton.dataset.infoCategory = button.dataset.category;
   item.appendChild(infoButton);
 });
@@ -299,7 +306,7 @@ function orderedCategories(categories) {
 function composePrivateReport(categories) {
   const ordered = orderedCategories(categories);
   return ordered.length
-    ? `${ordered.map((category) => templates[category].report).join(" ")} Please review the available account, communication and match data as relevant.`
+    ? `${ordered.map((category) => templates[category].report).join(" ")} ${t("Please review the available account, communication and match data as relevant.")}`
     : "";
 }
 
@@ -335,7 +342,7 @@ function saveBotDailyEntries() {
     localStorage.setItem(botQueueStorageKey(), JSON.stringify(botDailyEntries));
     return true;
   } catch {
-    botUrlStatus.textContent = "This browser could not save the list. Check its storage settings.";
+    botUrlStatus.textContent = t("This browser could not save the list. Check its storage settings.");
     botUrlStatus.classList.remove("valid");
     botUrlStatus.classList.add("invalid");
     return false;
@@ -346,19 +353,19 @@ function composeDailyBotEmail() {
   if (!botDailyEntries.length) return "";
 
   const entries = botDailyEntries.flatMap((entry, index) => [
-    `${index + 1}. Steam profile: ${entry.url}`,
-    "Observed behaviour:",
+    `${index + 1}. ${t("Steam profile:")} ${entry.url}`,
+    t("Observed behaviour:"),
     composePrivateReport(entry.categories),
     "",
   ]);
 
   return [
-    "Hello Counter-Strike Team,",
+    t("Hello Counter-Strike Team,"),
     "",
-    `I would like to report the following suspected farming bot accounts observed on ${localDateStamp()}:`,
+    t("I would like to report the following suspected farming bot accounts observed on {date}:", { date: localDateStamp() }),
     "",
     ...entries,
-    "Thank you.",
+    t("Thank you."),
   ].join("\n");
 }
 
@@ -381,7 +388,7 @@ function renderBotDailyEntries() {
     const remove = document.createElement("button");
     remove.type = "button";
     remove.className = "bot-daily-remove";
-    remove.textContent = "Remove";
+    remove.textContent = t("Remove");
     remove.addEventListener("click", () => {
       botDailyEntries = botDailyEntries.filter((candidate) => candidate.url !== entry.url);
       saveBotDailyEntries();
@@ -393,7 +400,7 @@ function renderBotDailyEntries() {
   });
 
   const count = botDailyEntries.length;
-  botDailyCount.textContent = `${count} ${count === 1 ? "profile" : "profiles"}`;
+  botDailyCount.textContent = opnI18n.profileCount(count);
   botDailyEmpty.hidden = count > 0;
   clearBotDailyList.disabled = count === 0;
   botEmailBody.value = composeDailyBotEmail();
@@ -413,12 +420,12 @@ function updateBotProfileInput() {
 
   if (!isValid) {
     botUrlStatus.textContent = hasValue
-      ? "Enter a valid Steam Community profile URL."
-      : "Paste a Steam profile URL to add it to today's list.";
+      ? t("Enter a valid Steam Community profile URL.")
+      : t("Paste a Steam profile URL to add it to today's list.");
     return;
   }
 
-  botUrlStatus.textContent = "Valid profile URL. Add it to today's list.";
+  botUrlStatus.textContent = t("Valid profile URL. Add it to today's list.");
 }
 
 function addCurrentBotToDailyList() {
@@ -442,8 +449,8 @@ function addCurrentBotToDailyList() {
   renderBotDailyEntries();
   updateBotProfileInput();
   botUrlStatus.textContent = existing
-    ? "Profile already saved; its selected categories were merged."
-    : "Profile added to today's list.";
+    ? t("Profile already saved; its selected categories were merged.")
+    : t("Profile added to today's list.");
   botUrlStatus.classList.add("valid");
 }
 
@@ -467,6 +474,7 @@ function applyFilter(filter) {
 }
 
 function openCategoryInfo(category) {
+  categoryInfoDialog.dataset.category = category;
   const help = categoryHelp[category];
   categoryInfoTitle.textContent = help.name;
   categoryInfoDefinition.textContent = help.definition;
@@ -484,7 +492,7 @@ function updateOutput() {
   reportText.value = composePrivateReport(selected);
 
   commentText.value = hasSelection
-    ? `${selected.map((category) => templates[category].comment).join(" ")} Evidence has been reported for review. OPN documents suspected cheating, farming bots and abusive behaviour without encouraging harassment or mass reporting.\n\nJoin OpenPlay Network — a community for fair play and better matches: ${groupUrl}`
+    ? `${selected.map((category) => templates[category].comment).join(" ")} ${t("Evidence has been reported for review. OPN documents suspected cheating, farming bots and abusive behaviour without encouraging harassment or mass reporting.")}\n\n${t("Join OpenPlay Network — a community for fair play and better matches:")} ${groupUrl}`
     : "";
 
   reportText.classList.toggle("empty", !hasSelection);
@@ -541,7 +549,7 @@ function showToast(message, duration = 1800) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => {
     toast.classList.remove("show");
-    toast.querySelector("span").textContent = "Copied to clipboard";
+    toast.querySelector("span").textContent = t("Copied to clipboard");
   }, duration);
 }
 
@@ -562,20 +570,20 @@ async function copyPlainText(value, successMessage) {
 
     showToast(successMessage);
   } catch {
-    showToast("Copy unavailable — select and copy the text manually", 2600);
+    showToast(t("Copy unavailable — select and copy the text manually"), 2600);
   }
 }
 
 function prepareShareOptions() {
-  steamShareText.value = steamShareMessage;
-  discordShareText.value = discordShareMessage;
+  steamShareText.value = steamShareMessage();
+  discordShareText.value = discordShareMessage();
 
   const links = {
-    whatsapp: `https://wa.me/?text=${encodeURIComponent(discordShareMessage)}`,
-    telegram: `https://t.me/share/url?url=${encodeURIComponent(siteUrl)}&text=${encodeURIComponent("A free community tool for clear, neutral Steam reports.")}`,
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(discordShareMessage())}`,
+    telegram: `https://t.me/share/url?url=${encodeURIComponent(siteUrl)}&text=${encodeURIComponent(t("A free community tool for clear, neutral Steam reports."))}`,
     reddit: `https://www.reddit.com/submit?url=${encodeURIComponent(siteUrl)}&title=${encodeURIComponent(shareTitle)}`,
-    x: `https://twitter.com/intent/tweet?text=${encodeURIComponent("A free community tool for clear, neutral Steam reports.")}&url=${encodeURIComponent(siteUrl)}`,
-    email: `mailto:?subject=${encodeURIComponent(shareTitle)}&body=${encodeURIComponent(discordShareMessage)}`,
+    x: `https://twitter.com/intent/tweet?text=${encodeURIComponent(t("A free community tool for clear, neutral Steam reports."))}&url=${encodeURIComponent(siteUrl)}`,
+    email: `mailto:?subject=${encodeURIComponent(shareTitle)}&body=${encodeURIComponent(discordShareMessage())}`,
   };
 
   document.querySelectorAll("[data-share-link]").forEach((link) => {
@@ -590,12 +598,12 @@ async function copyContent(targetId) {
   const card = textarea.closest(".copy-card");
 
   if (!textarea.value) {
-    toast.querySelector("span").textContent = "Select at least one category";
+    toast.querySelector("span").textContent = t("Select at least one category");
     toast.classList.add("show");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
       toast.classList.remove("show");
-      toast.querySelector("span").textContent = "Copied to clipboard";
+      toast.querySelector("span").textContent = t("Copied to clipboard");
     }, 1800);
     return;
   }
@@ -608,23 +616,23 @@ async function copyContent(targetId) {
     }
 
     card.classList.add("copied");
-    card.querySelector(".copy-button span").textContent = "Copied";
+    card.querySelector(".copy-button span").textContent = t("Copied");
     toast.classList.add("show");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
       toast.classList.remove("show");
       card.classList.remove("copied");
-      card.querySelector(".copy-button span").textContent = "Copy";
+      card.querySelector(".copy-button span").textContent = t("Copy");
     }, 1800);
   } catch {
     textarea.focus();
     textarea.select();
-    toast.querySelector("span").textContent = "Select the text and copy it manually";
+    toast.querySelector("span").textContent = t("Select the text and copy it manually");
     toast.classList.add("show");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => {
       toast.classList.remove("show");
-      toast.querySelector("span").textContent = "Copied to clipboard";
+      toast.querySelector("span").textContent = t("Copied to clipboard");
     }, 2600);
   }
 }
@@ -659,11 +667,11 @@ botProfileUrl.addEventListener("keydown", (event) => {
 addBotToDailyList.addEventListener("click", addCurrentBotToDailyList);
 
 clearBotDailyList.addEventListener("click", () => {
-  if (!window.confirm("Clear today's saved bot list after sending the email?")) return;
+  if (!window.confirm(t("Clear today's saved bot list after sending the email?"))) return;
   botDailyEntries = [];
   saveBotDailyEntries();
   renderBotDailyEntries();
-  botUrlStatus.textContent = "Today's sent list was cleared.";
+  botUrlStatus.textContent = t("Today's sent list was cleared.");
   botUrlStatus.classList.remove("invalid");
   botUrlStatus.classList.add("valid");
 });
@@ -680,17 +688,17 @@ document.querySelectorAll("[data-bot-copy]").forEach((button) => {
         throw new Error("Copy command failed");
       }
 
-      toast.querySelector("span").textContent = "Email field copied";
+      toast.querySelector("span").textContent = t("Email field copied");
       toast.classList.add("show");
       clearTimeout(toastTimer);
       toastTimer = setTimeout(() => {
         toast.classList.remove("show");
-        toast.querySelector("span").textContent = "Copied to clipboard";
+        toast.querySelector("span").textContent = t("Copied to clipboard");
       }, 1800);
     } catch {
       field.focus();
       field.select();
-      toast.querySelector("span").textContent = "Select the field and copy it manually";
+      toast.querySelector("span").textContent = t("Select the field and copy it manually");
       toast.classList.add("show");
     }
   });
@@ -715,14 +723,14 @@ document.querySelectorAll(".copy-button").forEach((button) => {
   });
 });
 
-copyShareLink.addEventListener("click", () => copyPlainText(siteUrl, "Link copied"));
+copyShareLink.addEventListener("click", () => copyPlainText(siteUrl, t("Link copied")));
 
 nativeShare.addEventListener("click", async () => {
   try {
-    await navigator.share({ title: shareTitle, text: "A free community tool for clear, neutral Steam reports.", url: siteUrl });
+    await navigator.share({ title: shareTitle, text: t("A free community tool for clear, neutral Steam reports."), url: siteUrl });
   } catch (error) {
     if (error.name !== "AbortError") {
-      copyPlainText(discordShareMessage, "Share text copied");
+      copyPlainText(discordShareMessage(), t("Share text copied"));
     }
   }
 });
@@ -731,3 +739,20 @@ applyFilter("all");
 renderBotDailyEntries();
 updateOutput();
 prepareShareOptions();
+
+
+opnI18n.onChange(() => {
+  clearTimeout(toastTimer);
+  toast.classList.remove('show');
+  toast.querySelector('span').textContent = t('Copied to clipboard');
+  document.querySelectorAll('.copy-card').forEach(card => card.classList.remove('copied'));
+  document.querySelectorAll('.copy-button span').forEach(label => { label.textContent = t('Copy'); });
+  localizeReportData();
+  document.querySelectorAll('.category-info-button').forEach(button => {
+    button.setAttribute('aria-label', t('About {name}', { name: categoryHelp[button.dataset.infoCategory].name }));
+  });
+  if (categoryInfoDialog.open) openCategoryInfo(categoryInfoDialog.dataset.category);
+  renderBotDailyEntries();
+  updateOutput();
+  prepareShareOptions();
+});

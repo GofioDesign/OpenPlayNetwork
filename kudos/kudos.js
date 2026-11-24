@@ -231,6 +231,9 @@ const qualities = {
   },
 };
 
+const qualitySourceData = structuredClone(qualities);
+function localizeQualities() { Object.assign(qualities, opnI18n.translateData(qualitySourceData)); }
+localizeQualities();
 const qualityGrid = document.querySelector("#qualityGrid");
 const kudosText = document.querySelector("#kudosText");
 const kudosCopyCard = document.querySelector("#kudosCopyCard");
@@ -251,10 +254,11 @@ let activeFilter = "all";
 let toastTimer;
 
 function renderQualities() {
+  qualityGrid.replaceChildren();
   const familyDetails = {
-    individual: { name: "Individual", description: "Personal performance, attitude and participation" },
-    team: { name: "Team", description: "Contribution to teammates and shared objectives" },
-    match: { name: "Match", description: "Fair play and conduct within the shared match" },
+    individual: { name: t("Individual"), description: t("Personal performance, attitude and participation") },
+    team: { name: t("Team"), description: t("Contribution to teammates and shared objectives") },
+    match: { name: t("Match"), description: t("Fair play and conduct within the shared match") },
   };
   const familyGrids = {};
 
@@ -267,7 +271,7 @@ function renderQualities() {
     const grid = document.createElement("div");
     grid.className = "category-grid family-grid";
     grid.setAttribute("role", "group");
-    grid.setAttribute("aria-label", `${family.name} qualities`);
+    grid.setAttribute("aria-label", t("{name} qualities", { name: family.name }));
     section.appendChild(grid);
     qualityGrid.appendChild(section);
     familyGrids[familyId] = grid;
@@ -287,7 +291,7 @@ function renderQualities() {
     infoButton.type = "button";
     infoButton.className = "category-info-button";
     infoButton.textContent = "i";
-    infoButton.setAttribute("aria-label", `About ${quality.name}`);
+    infoButton.setAttribute("aria-label", t("About {name}", { name: quality.name }));
     infoButton.addEventListener("click", () => openInfo(qualityId));
     heading.appendChild(infoButton);
     item.appendChild(heading);
@@ -295,7 +299,7 @@ function renderQualities() {
     const controls = document.createElement("div");
     controls.className = "rating-control";
     controls.setAttribute("role", "group");
-    controls.setAttribute("aria-label", `Rate ${quality.name}`);
+    controls.setAttribute("aria-label", t("Rate {name}", { name: quality.name }));
 
     ["top", "positive", "neutral", "zero", "negative", "extreme"].forEach((rating) => {
       const option = quality.ratings[rating];
@@ -303,6 +307,8 @@ function renderQualities() {
       button.type = "button";
       button.className = `rating-button ${rating}`;
       button.dataset.rating = rating;
+      button.title = option.label;
+      button.setAttribute('aria-label', `${quality.name}: ${option.label}`);
       button.setAttribute("aria-pressed", "false");
       const symbol = { top: "++", positive: "+", neutral: "=", negative: "−", zero: "0", extreme: "−−" }[rating];
       button.innerHTML = `<strong>${symbol}</strong><span>${option.label}</span>`;
@@ -333,23 +339,23 @@ function composeComment() {
     return result;
   }, { top: 0, positive: 0, neutral: 0, negative: 0, zero: 0, extreme: 0 });
 
-  let ending = "This was a mixed experience based on the qualities observed.";
+  let ending = t("This was a mixed experience based on the qualities observed.");
   if (counts.top > 0 && counts.positive === 0 && counts.negative === 0 && counts.neutral === 0 && counts.zero === 0 && counts.extreme === 0) {
-    ending = "An exceptional player who made the match significantly better for everyone. GG!";
+    ending = t("An exceptional player who made the match significantly better for everyone. GG!");
   } else if ((counts.top > 0 || counts.positive > 0) && counts.negative === 0 && counts.neutral === 0 && counts.zero === 0 && counts.extreme === 0) {
-    ending = "GG — thanks for making the match better for everyone.";
+    ending = t("GG — thanks for making the match better for everyone.");
   } else if (counts.negative > 0 && counts.top === 0 && counts.positive === 0 && counts.neutral === 0 && counts.zero === 0 && counts.extreme === 0) {
-    ending = "I hope future matches are approached with more cooperation and respect.";
+    ending = t("I hope future matches are approached with more cooperation and respect.");
   } else if (counts.neutral > 0 && counts.top === 0 && counts.positive === 0 && counts.negative === 0 && counts.zero === 0 && counts.extreme === 0) {
-    ending = "Overall, the match experience was fairly neutral.";
+    ending = t("Overall, the match experience was fairly neutral.");
   } else if (counts.zero > 0 && counts.top === 0 && counts.positive === 0 && counts.neutral === 0 && counts.negative === 0 && counts.extreme === 0) {
-    ending = "These qualities were entirely absent in the observed match.";
+    ending = t("These qualities were entirely absent in the observed match.");
   } else if (counts.extreme > 0 && counts.top === 0 && counts.positive === 0 && counts.neutral === 0 && counts.negative === 0 && counts.zero === 0) {
-    ending = "This conduct had a severely negative effect on the match. Serious abuse or disruption should also be reported privately through Steam.";
+    ending = t("This conduct had a severely negative effect on the match. Serious abuse or disruption should also be reported privately through Steam.");
   }
 
   const promotion = includePromotion.checked
-    ? `\n\nJoin OpenPlay Network — a community for fair play and better matches: ${groupUrl}`
+    ? `\n\n${t("Join OpenPlay Network — a community for fair play and better matches:")} ${groupUrl}`
     : "";
   return `${sentences} ${ending}${promotion}`;
 }
@@ -413,7 +419,7 @@ function showToast(message, duration = 1800) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => {
     toast.classList.remove("show");
-    toast.querySelector("span").textContent = "Feedback copied";
+    toast.querySelector("span").textContent = t("Feedback copied");
   }, duration);
 }
 
@@ -426,7 +432,7 @@ function legacyCopy(field) {
 
 async function copyComment() {
   if (!kudosText.value) {
-    showToast("Rate at least one quality");
+    showToast(t("Rate at least one quality"));
     return;
   }
 
@@ -438,21 +444,22 @@ async function copyComment() {
     }
 
     kudosCopyCard.classList.add("copied");
-    copyKudosButton.querySelector("span").textContent = "Copied";
-    showToast("Feedback copied");
+    copyKudosButton.querySelector("span").textContent = t("Copied");
+    showToast(t("Feedback copied"));
     setTimeout(() => {
       kudosCopyCard.classList.remove("copied");
-      copyKudosButton.querySelector("span").textContent = "Copy";
+      copyKudosButton.querySelector("span").textContent = t("Copy");
     }, 1800);
   } catch {
     legacyCopy(kudosText);
-    showToast("Select the text and copy it manually", 2600);
+    showToast(t("Select the text and copy it manually"), 2600);
   }
 }
 
 function openInfo(qualityId) {
+  infoDialog.dataset.quality = qualityId;
   const quality = qualities[qualityId];
-  infoKicker.textContent = "QUALITY RATING";
+  infoKicker.textContent = t("QUALITY RATING");
   infoTitle.textContent = quality.name;
   infoDefinition.textContent = quality.definition;
   infoExample.textContent = ["top", "positive", "neutral", "zero", "negative", "extreme"]
@@ -485,3 +492,17 @@ infoDialog.addEventListener("click", (event) => {
 renderQualities();
 applyFilter("all");
 updateOutput();
+
+
+opnI18n.onChange(() => {
+  clearTimeout(toastTimer);
+  toast.classList.remove('show');
+  toast.querySelector('span').textContent = t('Feedback copied');
+  kudosCopyCard.classList.remove('copied');
+  copyKudosButton.querySelector('span').textContent = t('Copy');
+  localizeQualities();
+  renderQualities();
+  updateOutput();
+  applyFilter(activeFilter);
+  if (infoDialog.open) openInfo(infoDialog.dataset.quality);
+});

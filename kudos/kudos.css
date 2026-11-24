@@ -76,14 +76,14 @@
 .rating-card .category-info-button { top: 0; right: 0; }
 .rating-control {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 5px;
   margin-top: 12px;
 }
 .rating-button {
   display: grid;
   min-width: 0;
-  min-height: 56px;
+  min-height: 64px;
   padding: 7px 4px;
   place-items: center;
   align-content: center;
@@ -97,13 +97,13 @@
 }
 .rating-button strong { font-size: 1rem; line-height: 1; }
 .rating-button span {
-  overflow: hidden;
+  overflow-wrap: anywhere;
+  hyphens: auto;
   max-width: 100%;
-  font-size: 0.56rem;
+  font-size: 0.64rem;
   font-weight: 750;
-  line-height: 1.15;
+  line-height: 1.25;
   text-align: center;
-  text-overflow: ellipsis;
 }
 .rating-button:hover { border-color: rgba(255,255,255,0.28); color: var(--text); }
 .rating-button.top.active {
@@ -184,3 +184,4 @@
   .kudos-page .category-grid { grid-template-columns: 1fr; }
   .kudos-copy-card textarea { height: 245px; }
 }
+
