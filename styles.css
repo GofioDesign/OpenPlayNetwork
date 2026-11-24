@@ -96,6 +96,20 @@ footer {
 .group-link svg { width: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 .group-link:hover { color: var(--cyan); }
 .header-actions { display: flex; gap: 16px; align-items: center; }
+
+.site-header { flex-wrap: wrap; gap: 16px; }
+.language-switcher { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-left: auto; }
+.language-flag { display: inline-grid; place-items: center; flex: 0 0 32px; width: 32px; height: 32px; padding: 3px; border: 1px solid #64748b; border-radius: 50%; background: #0b1424; cursor: pointer; }
+.language-flag img { display: block; width: 24px; height: 24px; object-fit: cover; border-radius: 50%; }
+.language-flag[data-language="zh-CN"] img { object-position: left center; }
+.language-flag:hover { border-color: #e2e8f0; }
+.language-flag[aria-pressed="true"] { border-color: #67e8f9; box-shadow: 0 0 0 2px #67e8f955; }
+.language-flag:focus-visible { outline: 3px solid #f8fafc; outline-offset: 4px; }
+@media (max-width: 700px) {
+  .language-switcher { width: 100%; margin-left: 0; justify-content: center; gap: 10px; }
+  .language-flag { flex-basis: 36px; width: 36px; height: 36px; }
+  .language-flag img { width: 28px; height: 28px; }
+}
 .tool-link {
   padding: 8px 11px;
   border: 1px solid rgba(53, 229, 173, 0.3);
@@ -701,3 +715,4 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+
